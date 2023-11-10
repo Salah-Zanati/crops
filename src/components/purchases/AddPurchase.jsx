@@ -35,6 +35,8 @@ import {
 
 // eslint-disable-next-line react/prop-types
 const AddPurchase = ({ update }) => {
+  const userId = useSelector(selectUserId);
+
   const [quantity, setQuantity] = useState();
   const [price, setPrice] = useState();
   const [date, setDate] = useState(Timestamp.fromDate(new Date()));
@@ -54,7 +56,6 @@ const AddPurchase = ({ update }) => {
   const [vegsData, setVegsData] = useState();
 
   const dispatch = useDispatch();
-  const userId = useSelector(selectUserId);
 
   const bringMaterialData = useSelector(selectMaterialEntities);
   const bringSellersData = useSelector(selectSellersEntities);

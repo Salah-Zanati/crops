@@ -4,9 +4,7 @@ import {
   selectWorkersEntities,
   selectWorkersLoading,
 } from "../../toolkit/workersSlice";
-import Box from "../styles/Box.styled";
 import Button from "../styles/Button.styled";
-import Input from "../styles/Input.styled";
 import Table from "../styles/Table.styled";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";

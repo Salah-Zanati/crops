@@ -3,11 +3,11 @@ import { Link } from "react-router-dom";
 
 const Sidebar = () => {
   const sections = [
-    { id: 0, to: "/", value: "mang", text: "إدارة" },
-    { id: 2, to: "/sales", value: "sales", text: "المبيعات" },
-    { id: 3, to: "/purchases", value: "purchases", text: "المشتريات" },
-    { id: 4, to: "/fullacts", value: "fullacts", text: "العمليات الكاملة" },
-    { id: 5, to: "/about", value: "developerInfo", text: "معلومات المطور" },
+    { id: 5, to: "/", value: "mang", text: "إدارة" },
+    { id: 1, to: "/sales", value: "sales", text: "المبيعات" },
+    { id: 2, to: "/purchases", value: "purchases", text: "المشتريات" },
+    { id: 3, to: "/fullacts", value: "fullacts", text: "العمليات الكاملة" },
+    { id: 4, to: "/about", value: "developerInfo", text: "معلومات المطور" },
   ];
   useEffect(() => {
     let links = document.querySelectorAll("#links li a");
