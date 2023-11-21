@@ -13,8 +13,6 @@ import {
 } from "../../toolkit/salesSlice";
 import { useState } from "react";
 import Loading from "../animation/Loading";
-import { database } from "../../firebaseConfig";
-import { deleteDoc, doc } from "firebase/firestore";
 import { selectUserId } from "../../toolkit/loginSlice";
 import { handleDeleting } from "../../utils/functions";
 
@@ -38,14 +36,14 @@ const Sales = () => {
   if (loading) return <Loading />;
 
   return (
-    <Container className="p-5">
+    <Container className="p-5 mb-10">
       <Box className="flex-col gap-5">
-        <div className="flex justify-between gap-5 mt-2">
+        <div className="flex justify-between flex-col items-center gap-5 mt-2 sm:flex-row">
           <Button.large onClick={() => {}}>
             <Link to="/sales/addSale">إضافة فاتورة جديدة</Link>
           </Button.large>
           <div className="flex justify-start items-center gap-3">
-            <p>مربع البحث: </p>
+            <p className="hidden md:block">مربع البحث: </p>
             <Input
               placeholder="بحث..."
               onChange={(e) => {

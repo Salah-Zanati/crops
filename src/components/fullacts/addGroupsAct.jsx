@@ -156,88 +156,110 @@ const AddGroupsAct = ({ update }) => {
           {update ? "تعديل بيانات المصاريف" : "إضافة مصاريف جديدة"}
         </h1>
         <form className="flex flex-col gap-2">
-          <div className="flex gap-5 items-center">
-            <label htmlFor="hourPrice">أدخل سعر الساعة: </label>
-            <Input
-              id="hourPrice"
-              name="hourPrice"
-              type="number"
-              className="w-36"
-              placeholder="سعر الساعة..."
-              value={update && hourPrice}
-              onChange={onHourPriceChange}
-              disabled={loading}
-            />
-            <label htmlFor="workersNum">أدخل عدد العمال: </label>
-            <Input
-              id="workersNum"
-              name="workersNum"
-              type="number"
-              className="w-36"
-              placeholder="عدد العمال..."
-              value={update && workersNum}
-              onChange={onWorkersNumChange}
-              disabled={loading}
-            />
-            <label htmlFor="hoursNum">أدخل عدد الساعات: </label>
-            <Input
-              id="hoursNum"
-              name="hoursNum"
-              type="number"
-              className="w-36"
-              placeholder="عدد الساعات..."
-              value={update && hoursNum}
-              onChange={onHoursNumChagne}
-              disabled={loading}
-            />
+          <div className="flex gap-5 items-center flex-wrap">
+            <div>
+              <label htmlFor="hourPrice" className="block">
+                أدخل سعر الساعة:{" "}
+              </label>
+              <Input
+                id="hourPrice"
+                name="hourPrice"
+                type="number"
+                className="w-36"
+                placeholder="سعر الساعة..."
+                value={update && hourPrice}
+                onChange={onHourPriceChange}
+                disabled={loading}
+              />
+            </div>
+            <div>
+              <label htmlFor="workersNum" className="block">
+                أدخل عدد العمال:{" "}
+              </label>
+              <Input
+                id="workersNum"
+                name="workersNum"
+                type="number"
+                className="w-36"
+                placeholder="عدد العمال..."
+                value={update && workersNum}
+                onChange={onWorkersNumChange}
+                disabled={loading}
+              />
+            </div>
+            <div>
+              <label htmlFor="hoursNum" className="block">
+                أدخل عدد الساعات:{" "}
+              </label>
+              <Input
+                id="hoursNum"
+                name="hoursNum"
+                type="number"
+                className="w-36"
+                placeholder="عدد الساعات..."
+                value={update && hoursNum}
+                onChange={onHoursNumChagne}
+                disabled={loading}
+              />
+            </div>
           </div>
-          <div className="flex gap-5 items-center">
-            <label htmlFor="groupsActAct">العمليات</label>
-            <SelectMenu
-              conectionName="acts"
-              data={actsData && actsData}
-              listName="إختر عملية"
-              setValue={() => setAct}
-              selectedItem={update && state.actId}
-            />
-            <label htmlFor="groupsActVeg">الأصناف</label>
-            <SelectMenu
-              conectionName="vegs"
-              data={vegsData && vegsData}
-              listName="إختر صنف"
-              setValue={() => setVeg}
-              selectedItem={update && state.vegId}
-            />
-            <label htmlFor="groupsActVeg">الورشة</label>
-            <SelectMenu
-              conectionName="groups"
-              data={groupsData && groupsData}
-              listName="إختر ورشة"
-              setValue={() => setGroup}
-              selectedItem={update && state.groupId}
-            />
+          <div className="flex gap-5 items-center flex-wrap">
+            <div>
+              <label htmlFor="groupsActAct">العمليات</label>
+              <SelectMenu
+                conectionName="acts"
+                data={actsData && actsData}
+                listName="إختر عملية"
+                setValue={() => setAct}
+                selectedItem={update && state.actId}
+              />
+            </div>
+            <div>
+              <label htmlFor="groupsActVeg">الأصناف</label>
+              <SelectMenu
+                conectionName="vegs"
+                data={vegsData && vegsData}
+                listName="إختر صنف"
+                setValue={() => setVeg}
+                selectedItem={update && state.vegId}
+              />
+            </div>
+            <div>
+              <label htmlFor="groupsActVeg">الورشة</label>
+              <SelectMenu
+                conectionName="groups"
+                data={groupsData && groupsData}
+                listName="إختر ورشة"
+                setValue={() => setGroup}
+                selectedItem={update && state.groupId}
+              />
+            </div>
           </div>
-          <div className="flex gap-5 items-center">
-            <label htmlFor="groupsActDate">أدخل التاريخ: </label>
-            <Input
-              id="groupsActDate"
-              name="groupsActDate"
-              type="date"
-              value={
-                date ? convertDate(date.toMillis()) : convertDate(new Date())
-              }
-              onChange={onDateChange}
-              disabled={loading}
-            />
-            <label htmlFor="isPaid">مسددة ام لا:</label>
-            <Input
-              id="isPaid"
-              name="isPaid"
-              type="checkbox"
-              checked={isPaid}
-              onChange={onIsPaidChange}
-              disabled={loading}
-            />
+          <div className="flex gap-5 items-center flex-wrap">
+            <div>
+              <label htmlFor="groupsActDate">أدخل التاريخ: </label>
+              <Input
+                id="groupsActDate"
+                name="groupsActDate"
+                type="date"
+                value={
+                  date ? convertDate(date.toMillis()) : convertDate(new Date())
+                }
+                onChange={onDateChange}
+                disabled={loading}
+              />
+            </div>
+            <div>
+              <label htmlFor="isPaid">مسددة ام لا:</label>
+              <Input
+                id="isPaid"
+                name="isPaid"
+                type="checkbox"
+                checked={isPaid}
+                onChange={onIsPaidChange}
+                disabled={loading}
+              />
+            </div>
           </div>
           <Button.large
             id="addGroupsActSubmitBtn"

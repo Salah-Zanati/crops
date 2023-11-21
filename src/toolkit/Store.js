@@ -14,6 +14,7 @@ import fullactWorkersSlice from "./fullactWorkersSlice";
 import groupsSlice from "./groupsSlice";
 import groupsActsSlice from "./groupsActsSlice";
 import loginSlice from "./loginSlice";
+import currencySlice from "./currencySlice";
 
 export const store = configureStore({
   reducer: {
@@ -32,5 +33,6 @@ export const store = configureStore({
     groups: groupsSlice,
     groupsActs: groupsActsSlice,
     users: loginSlice,
+    currency: currencySlice,
   },
 });

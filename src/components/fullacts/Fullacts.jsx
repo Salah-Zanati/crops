@@ -21,6 +21,7 @@ import {
 } from "../../toolkit/groupsActsSlice";
 import { selectUserId } from "../../toolkit/loginSlice";
 import { handleDeleting } from "../../utils/functions";
+import { fullactToggle, selectFullactToggle } from "../../toolkit/generalSlice";
 
 const Fullact = () => {
   const dispatch = useDispatch();
@@ -30,7 +31,7 @@ const Fullact = () => {
   const fullactsLoading = useSelector(selectFullactLoading);
   const bringGroupsActsData = useSelector(selectGroupsActEntities);
   const groupsActsLoading = useSelector(selectGroupsActLoading);
-  const [type, setType] = useState("groups");
+  const fullactToggleValue = useSelector(selectFullactToggle);
 
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(false);
@@ -49,6 +50,13 @@ const Fullact = () => {
     setGroupsActsData(bringGroupsActsData);
   }, [bringGroupsActsData]);
 
+  useEffect(() => {
+    let fullactToggleElement = document.getElementById("fullactToggle");
+    fullactToggleValue == true
+      ? fullactToggleElement.classList.add("groups")
+      : fullactToggleElement.classList.remove("groups");
+  }, [fullactToggleValue]);
+
   if (
     loading ||
     fullactsLoading === "loading" ||
@@ -59,11 +67,11 @@ const Fullact = () => {
   return (
     <Container className="my-5">
       <Box className="flex-col gap-5">
-        <div className="flex justify-between items-center gap-5 mt-2">
+        <div className="flex justify-between items-center flex-col gap-5 mt-2 md:flex-row">
           <Button.large>
             <Link
               to={
-                type === "groups"
+                fullactToggleValue
                   ? "/fullacts/addGroupsAct"
                   : "/fullacts/addFullact"
               }
@@ -72,7 +80,7 @@ const Fullact = () => {
             </Link>
           </Button.large>
           <div className="flex justify-start items-center gap-3">
-            <p>مربع البحث: </p>
+            <p className="hidden md:block">مربع البحث: </p>
             <Input
               type="text"
               placeholder="بحث..."
@@ -85,17 +93,16 @@ const Fullact = () => {
             <p>عمال</p>
             <Toggle
               className="groups"
-              onClick={(e) => {
-                e.target.classList.toggle("groups");
-                e.target.classList.toggle("workers");
-                setType(type === "groups" ? "workers" : "groups");
+              id="fullactToggle"
+              onClick={() => {
+                dispatch(fullactToggle(!fullactToggleValue));
               }}
             />
             <p>ورشات</p>
           </div>
         </div>
         <Table className="p-3 rounded-2xl bg-white">
-          {type === "groups" && (
+          {fullactToggleValue && (
             <>
               <thead>
                 <tr>
@@ -141,7 +148,7 @@ const Fullact = () => {
                               act.hourPrice
                             ).toFixed(2)}
                           </td>
-                          <td key="8">
+                          <td key="10">
                             {act.isPaid === true ? "مسددة" : "غير مسددة"}
                           </td>
                           <td key="9" className="flex gap-2 justify-center">
@@ -174,7 +181,7 @@ const Fullact = () => {
             </>
           )}
 
-          {type === "workers" && (
+          {!fullactToggleValue && (
             <>
               <thead>
                 <tr>

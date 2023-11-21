@@ -118,8 +118,10 @@ const AddFullact = ({ update }) => {
           {update ? "تعديل بيانات المصاريف" : "إضافة مصاريف جديدة"}
         </h1>
         <form className="flex flex-col gap-2">
-          <div className="flex gap-5 items-center">
-            <label htmlFor="expensesAmount">أدخل سعر الساعة</label>
+          <div>
+            <label htmlFor="expensesAmount" className="block">
+              أدخل سعر الساعة:
+            </label>
             <Input
               id="expensesAmount"
               name="expensesAmount"
@@ -131,22 +133,26 @@ const AddFullact = ({ update }) => {
             />
           </div>
           <div className="flex gap-5 items-center">
-            <label htmlFor="fullactAct">العمليات</label>
-            <SelectMenu
-              conectionName="acts"
-              data={actsData && actsData}
-              listName="إختر عملية"
-              setValue={() => setAct}
-              selectedItem={update && state.actId}
-            />
-            <label htmlFor="fullactVeg">الأصناف</label>
-            <SelectMenu
-              conectionName="vegs"
-              data={vegsData && vegsData}
-              listName="إختر صنف"
-              setValue={() => setVeg}
-              selectedItem={update && state.vegId}
-            />
+            <div>
+              <label htmlFor="fullactAct">العمليات</label>
+              <SelectMenu
+                conectionName="acts"
+                data={actsData && actsData}
+                listName="إختر عملية"
+                setValue={() => setAct}
+                selectedItem={update && state.actId}
+              />
+            </div>
+            <div>
+              <label htmlFor="fullactVeg">الأصناف</label>
+              <SelectMenu
+                conectionName="vegs"
+                data={vegsData && vegsData}
+                listName="إختر صنف"
+                setValue={() => setVeg}
+                selectedItem={update && state.vegId}
+              />
+            </div>
           </div>
           <div className="flex gap-5 items-center">
             <label htmlFor="fullactDate">أدخل التاريخ: </label>

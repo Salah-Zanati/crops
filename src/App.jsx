@@ -26,6 +26,7 @@ import AddGroupsAct from "./components/fullacts/addGroupsAct";
 import { useSelector } from "react-redux";
 import { selectAccess } from "./toolkit/loginSlice";
 import Navbar from "./components/Navbar";
+import AddCurrency from "./components/management/addCurrency";
 
 const theme = {
   colors: {
@@ -45,7 +46,7 @@ function App() {
           <Navbar />
           {!access && <Login />}
           {access && (
-            <div className="flex flex-1">
+            <div className="flex flex-col-reverse justify-end flex-1 md:flex-row">
               <Sidebar />
               <Routes>
                 {/* Management section */}
@@ -84,6 +85,11 @@ function App() {
                 <Route
                   path="/home/updataGroup"
                   element={<AddGroup update={true} />}
+                />
+                <Route path="/home/AddCurrency" element={<AddCurrency />} />
+                <Route
+                  path="/home/updataCurrency"
+                  element={<AddCurrency update={true} />}
                 />
 
                 {/* Sales section */}

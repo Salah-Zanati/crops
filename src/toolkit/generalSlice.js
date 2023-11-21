@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   accessAllow: false,
   activePartAtHome: "workers",
+  isFullactToggleGroup: true,
 };
 
 const generalSlice = createSlice({
@@ -18,12 +19,18 @@ const generalSlice = createSlice({
     updateActivePartAtSidebar(state, action) {
       state.activePartAtHome = action.payload;
     },
+    fullactToggle(state, action) {
+      state.isFullactToggleGroup = action.payload;
+    },
   },
   extraReducers: {},
 });
 
 export const selectActivePartAtHome = (state) => state.general.activePartAtHome;
+export const selectFullactToggle = (state) =>
+  state.general.isFullactToggleGroup;
 
-export const { updateAccess, updateActivePartAtHome } = generalSlice.actions;
+export const { updateAccess, fullactToggle, updateActivePartAtHome } =
+  generalSlice.actions;
 
 export default generalSlice.reducer;

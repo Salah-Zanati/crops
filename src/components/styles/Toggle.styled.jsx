@@ -18,14 +18,12 @@ const Toggle = styled.span`
     height: 14px;
     background-color: white;
     top: 3px;
+    right: 3px;
     border-radius: 50%;
     transition: 0.3s;
   }
   &.groups::after {
-    left: 3px;
-  }
-  &.workers::after {
-    left: 23px;
+    right: 23px;
   }
 `;
 export default Toggle;

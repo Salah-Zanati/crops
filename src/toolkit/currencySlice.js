@@ -4,12 +4,12 @@ import { database } from "../firebaseConfig";
 
 const initialState = { entities: [], loading: "idle" };
 
-export const getVegs = createAsyncThunk(
-  "vegs/getVegs",
+export const getCurrency = createAsyncThunk(
+  "currency/getCurrency",
   async (_, { getState }) => {
     try {
       const userId = getState().users.ref;
-      const collectionRef = collection(database, `users/${userId}/vegs`);
+      const collectionRef = collection(database, `users/${userId}/currency`);
 
       const querySnapshot = await getDocs(collectionRef);
       const data = querySnapshot.docs.map((item) => {
@@ -22,22 +22,22 @@ export const getVegs = createAsyncThunk(
   }
 );
 
-const vegsSlice = createSlice({
-  name: "vegs",
+const currencySlice = createSlice({
+  name: "currency",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(getVegs.pending, (state) => {
+      .addCase(getCurrency.pending, (state) => {
         state.loading = "loading";
       })
-      .addCase(getVegs.fulfilled, (state, action) => {
+      .addCase(getCurrency.fulfilled, (state, action) => {
         (state.loading = "idle"), (state.entities = action.payload);
       });
   },
 });
 
-export const selectVegsEntities = (state) => state.vegs.entities;
-export const selectVegsLoading = (state) => state.vegs.loading;
+export const selectCurrencyEntities = (state) => state.currency.entities;
+export const selectCurrencyLoading = (state) => state.currency.loading;
 
-export default vegsSlice.reducer;
+export default currencySlice.reducer;

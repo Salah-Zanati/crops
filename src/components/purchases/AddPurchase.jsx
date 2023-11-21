@@ -157,66 +157,82 @@ const AddPurchase = ({ update }) => {
           {update ? "تعديل بيانات الفاتورة" : "إضافة فاتورة جديد"}
         </h1>
         <form className="flex flex-col gap-2">
-          <div className="flex gap-5 items-center">
-            <label htmlFor="purchaseQuanity">أدخل الكمية: </label>
-            <Input
-              id="purchaseQuantity"
-              name="purchaseQuantity"
-              type="number"
-              placeholder="الكمية..."
-              value={update && quantity}
-              onChange={onQuantityChange}
-              disabled={loading}
-            />
-            <label htmlFor="purchasePrice">أدخل السعر: </label>
-            <Input
-              id="purchasePrice"
-              name="purchasePrice"
-              type="number"
-              placeholder="السعر..."
-              value={update && price}
-              onChange={onPriceChange}
-              disabled={loading}
-            />
+          <div className="flex gap-5 items-center flex-wrap">
+            <div>
+              <label htmlFor="purchaseQuanity" className="block">
+                أدخل الكمية:{" "}
+              </label>
+              <Input
+                id="purchaseQuantity"
+                name="purchaseQuantity"
+                type="number"
+                placeholder="الكمية..."
+                value={update && quantity}
+                onChange={onQuantityChange}
+                disabled={loading}
+              />
+            </div>
+            <div>
+              <label htmlFor="purchasePrice" className="block">
+                أدخل السعر:{" "}
+              </label>
+              <Input
+                id="purchasePrice"
+                name="purchasePrice"
+                type="number"
+                placeholder="السعر..."
+                value={update && price}
+                onChange={onPriceChange}
+                disabled={loading}
+              />
+            </div>
           </div>
-          <div className="flex gap-5 items-center">
-            <label htmlFor="purchaseMaterial">المواد: </label>
-            <SelectMenu
-              conectionName="material"
-              data={materialData && materialData}
-              listName="إختر مادة"
-              setValue={() => setMaterial}
-              selectedItem={update && state.materialId}
-            />
-            <label htmlFor="purchaseSeller">البائعين: </label>
-            <SelectMenu
-              conectionName="sellers"
-              data={sellersData && sellersData}
-              listName="إختر بائع"
-              setValue={() => setSeller}
-              selectedItem={update && state.sellerId}
-            />
-            <label htmlFor="purchaseVeg">الصنف: </label>
-            <SelectMenu
-              conectionName="vegs"
-              data={vegsData && vegsData}
-              listName="إختر صنف"
-              setValue={() => setVeg}
-              selectedItem={update && state.vegId}
-            />
+          <div className="flex gap-5 flex-wrap items-center">
+            <div>
+              <label htmlFor="purchaseMaterial">المواد: </label>
+              <SelectMenu
+                conectionName="material"
+                data={materialData && materialData}
+                listName="إختر مادة"
+                setValue={() => setMaterial}
+                selectedItem={update && state.materialId}
+              />
+            </div>
+            <div>
+              <label htmlFor="purchaseSeller">البائعين: </label>
+              <SelectMenu
+                conectionName="sellers"
+                data={sellersData && sellersData}
+                listName="إختر بائع"
+                setValue={() => setSeller}
+                selectedItem={update && state.sellerId}
+              />
+            </div>
+            <div>
+              <label htmlFor="purchaseVeg">الصنف: </label>
+              <SelectMenu
+                conectionName="vegs"
+                data={vegsData && vegsData}
+                listName="إختر صنف"
+                setValue={() => setVeg}
+                selectedItem={update && state.vegId}
+              />
+            </div>
           </div>
-          <div className="flex gap-5 items-center">
-            <label htmlFor="purchaseDate">أدخل التاريخ: </label>
-            <Input
-              id="purchaseDate"
-              name="purchaseDate"
-              type="date"
-              value={
-                date ? convertDate(date.toMillis()) : convertDate(new Date())
-              }
-              onChange={onDateChange}
-              disabled={loading}
-            />
+          <div className="flex gap-5 items-center flex-wrap">
+            <div>
+              <label htmlFor="purchaseDate">أدخل التاريخ: </label>
+              <Input
+                id="purchaseDate"
+                name="purchaseDate"
+                type="date"
+                value={
+                  date ? convertDate(date.toMillis()) : convertDate(new Date())
+                }
+                onChange={onDateChange}
+                disabled={loading}
+              />
+            </div>
             <label htmlFor="purchaseIsPaid" className="flex items-center gap-3">
               مسددة أم لا :
               <Input

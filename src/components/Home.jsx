@@ -13,14 +13,26 @@ import Acts from "./management/Acts";
 import Material from "./management/Material";
 import Groups from "./management/Groups";
 import Customers from "./management/Customers";
+import Currency from "./management/currency";
+import { useEffect } from "react";
 
-const Home2 = () => {
+const Home = () => {
   const [chossed, setChossed] = useState("workers");
   const [searchTerm, setSearchTerm] = useState("");
   const [AddBtnTxt, setAddBtnTxt] = useState("عامل");
 
-  // <Route path="/homeTest" element={<Home2 />} />
-  // { id: 1, to: "/homeTest", value: "mang", text: "homeTest" },
+  useEffect(() => {
+    const options = document.querySelectorAll("#homeMenu option");
+    if (!sessionStorage.getItem("activeHomeOption"))
+      sessionStorage.setItem("activeHomeOption", "workers");
+    else setChossed(sessionStorage.getItem("activeHomeOption"));
+    options.forEach((option) => {
+      if (option.value === sessionStorage.getItem("activeHomeOption")) {
+        option.selected = true;
+        setAddBtnTxt(option.dataset.arabic);
+      }
+    });
+  }, []);
 
   return (
     <>
@@ -31,7 +43,12 @@ const Home2 = () => {
               <Link
                 to={`/home/add${
                   chossed[0].toUpperCase() +
-                  chossed.slice(1, chossed.length - 1)
+                  chossed.slice(
+                    1,
+                    chossed[chossed.length - 1] == "s"
+                      ? chossed.length - 1
+                      : chossed.length
+                  )
                 }`}
               >
                 إضافة {AddBtnTxt}
@@ -41,7 +58,9 @@ const Home2 = () => {
               onChange={(e) => {
                 setChossed(e.target.value);
                 setAddBtnTxt(e.target.selectedOptions[0].dataset.arabic);
+                sessionStorage.setItem("activeHomeOption", e.target.value);
               }}
+              id="homeMenu"
             >
               <option value="workers" data-arabic="عامل">
                 العمال
@@ -64,11 +83,14 @@ const Home2 = () => {
               <option value="groups" data-arabic="ورشة">
                 الورش
               </option>
+              <option value="currency" data-arabic="عملة">
+                العملات
+              </option>
             </Select>
           </div>
 
           <div className="flex justify-center flex-col items-center gap-1 md:flex-row">
-            <label>مربع البحث: </label>
+            <label className="hidden md:block">مربع البحث: </label>
             <Input
               className="bg-white self-start"
               placeholder="بحث..."
@@ -84,10 +106,11 @@ const Home2 = () => {
           {chossed === "acts" && <Acts searchTerm={searchTerm} />}
           {chossed === "material" && <Material searchTerm={searchTerm} />}
           {chossed === "groups" && <Groups searchTerm={searchTerm} />}
+          {chossed === "currency" && <Currency searchTerm={searchTerm} />}
         </Box>
       </Container>
     </>
   );
 };
 
-export default Home2;
+export default Home;

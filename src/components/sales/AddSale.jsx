@@ -126,58 +126,72 @@ const AddSale = ({ update }) => {
           {update ? "تعديل بيانات الفاتورة" : "إضافة فاتورة جديد"}
         </h1>
         <form className="flex flex-col gap-2">
-          <div className="flex gap-5 items-center">
-            <label htmlFor="saleQuanity">أدخل الكمية: </label>
-            <Input
-              id="saleQuantity"
-              name="saleQuantity"
-              type="number"
-              placeholder="الكمية..."
-              value={quantity}
-              onChange={onQuantityChange}
-              disabled={loading}
-            />
-            <label htmlFor="salePrice">أدخل السعر: </label>
-            <Input
-              id="salePrice"
-              name="salePrice"
-              type="number"
-              placeholder="السعر..."
-              value={price}
-              onChange={onPriceChange}
-              disabled={loading}
-            />
+          <div className="flex gap-5 items-start flex-col sm:flex-row sm:items-center">
+            <div>
+              <label htmlFor="saleQuanity" className="block">
+                أدخل الكمية:{" "}
+              </label>
+              <Input
+                id="saleQuantity"
+                name="saleQuantity"
+                type="number"
+                placeholder="الكمية..."
+                value={quantity}
+                onChange={onQuantityChange}
+                disabled={loading}
+              />
+            </div>
+            <div>
+              <label htmlFor="salePrice" className="block">
+                أدخل السعر:{" "}
+              </label>
+              <Input
+                id="salePrice"
+                name="salePrice"
+                type="number"
+                placeholder="السعر..."
+                value={price}
+                onChange={onPriceChange}
+                disabled={loading}
+              />
+            </div>
           </div>
           <div className="flex gap-5 items-center">
-            <label htmlFor="saleVeg">الأصناف: </label>
-            <SelectMenu
-              conectionName="vegs"
-              data={vegsData && vegsData}
-              listName="إختر صنف"
-              setValue={() => setVeg}
-              selectedItem={update && state.vegId}
-            />
-            <label htmlFor="saleCustomer">الزبائن: </label>
-            <SelectMenu
-              conectionName="customers"
-              data={customersData && customersData}
-              listName="إختر زبون"
-              setValue={() => setCustomer}
-              selectedItem={update && state.customerId}
-            />
+            <div>
+              <label htmlFor="saleVeg">الأصناف: </label>
+              <SelectMenu
+                conectionName="vegs"
+                data={vegsData && vegsData}
+                listName="إختر صنف"
+                setValue={() => setVeg}
+                selectedItem={update && state.vegId}
+              />
+            </div>
+            <div>
+              <label htmlFor="saleCustomer">الزبائن: </label>
+              <SelectMenu
+                conectionName="customers"
+                data={customersData && customersData}
+                listName="إختر زبون"
+                setValue={() => setCustomer}
+                selectedItem={update && state.customerId}
+              />
+            </div>
           </div>
           <div className="flex gap-5 items-center">
-            <label htmlFor="saleDate">أدخل التاريخ: </label>
-            <Input
-              id="saleDate"
-              name="saleDate"
-              type="date"
-              value={
-                date ? convertDate(date.toMillis()) : convertDate(new Date())
-              }
-              onChange={onDateChange}
-              disabled={loading}
-            />
+            <div>
+              <label htmlFor="saleDate">أدخل التاريخ: </label>
+              <Input
+                id="saleDate"
+                name="saleDate"
+                type="date"
+                value={
+                  date ? convertDate(date.toMillis()) : convertDate(new Date())
+                }
+                onChange={onDateChange}
+                disabled={loading}
+              />
+            </div>
             <label htmlFor="saleIsPaid" className="flex items-center gap-3">
               مسددة أم لا :
               <Input

@@ -1,13 +1,34 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { UilEstate } from "@iconscout/react-unicons";
+import { UilMoneyInsert } from "@iconscout/react-unicons";
+import { UilMoneyWithdraw } from "@iconscout/react-unicons";
+import { UilCalculator } from "@iconscout/react-unicons";
 
 const Sidebar = () => {
   const sections = [
-    { id: 5, to: "/", value: "mang", text: "إدارة" },
-    { id: 1, to: "/sales", value: "sales", text: "المبيعات" },
-    { id: 2, to: "/purchases", value: "purchases", text: "المشتريات" },
-    { id: 3, to: "/fullacts", value: "fullacts", text: "العمليات الكاملة" },
-    { id: 4, to: "/about", value: "developerInfo", text: "معلومات المطور" },
+    { id: 5, to: "/", value: "mang", text: "إدارة", icon: UilEstate },
+    {
+      id: 1,
+      to: "/sales",
+      value: "sales",
+      text: "المبيعات",
+      icon: UilMoneyInsert,
+    },
+    {
+      id: 2,
+      to: "/purchases",
+      value: "purchases",
+      text: "المشتريات",
+      icon: UilMoneyWithdraw,
+    },
+    {
+      id: 3,
+      to: "/fullacts",
+      value: "fullacts",
+      text: "الأعمال",
+      icon: UilCalculator,
+    },
   ];
   useEffect(() => {
     let links = document.querySelectorAll("#links li a");
@@ -27,16 +48,20 @@ const Sidebar = () => {
   }, []);
 
   return (
-    <div className="bg-main text-white p-2 z-20">
-      <ul id="links" className="flex flex-col gap-2 text-xl">
+    <div className="bg-main text-white p-2 z-20 w-full fixed bottom-0 left-0 justify-start md:relative md:w-auto">
+      <ul
+        id="links"
+        className="flex gap-2 text-xl justify-evenly md:items-start md:flex-col"
+      >
         {sections.map((section) => (
           <li className="text-center" key={section.id}>
             <Link
-              className="block p-1 rounded-md hover:bg-mainAlt"
+              className="block p-1 rounded-md hover:bg-mainAlt flex flex-row-reverse items-center gap-1"
               to={section.to}
               data-value={section.value}
             >
-              {section.text}
+              <p className="hidden md:block">{section.text}</p>
+              <i>{<section.icon size="30" />}</i>
             </Link>
           </li>
         ))}

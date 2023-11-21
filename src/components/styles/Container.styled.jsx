@@ -9,7 +9,7 @@ const Container = styled.div`
   min-height: calc(100vh - 163px);
   @media (min-width: 480px) {
     & {
-      max-width: 480px;
+      /* max-width: 480px; */
     }
   }
   @media (min-width: 768px) {

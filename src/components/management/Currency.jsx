@@ -6,29 +6,29 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import Loading from "../animation/Loading";
 import {
-  getSellers,
-  selectSellersEntities,
-  selectSellersLoading,
-} from "../../toolkit/sellersSlice";
+  getCurrency,
+  selectCurrencyEntities,
+  selectCurrencyLoading,
+} from "../../toolkit/currencySlice";
 import { selectUserId } from "../../toolkit/loginSlice";
 import { handleDeleting } from "../../utils/functions";
 
 // eslint-disable-next-line react/prop-types
-const Sellers = ({ searchTerm = "" }) => {
+const Currency = ({ searchTerm = "" }) => {
   const dispatch = useDispatch();
   const userId = useSelector(selectUserId);
 
-  const bringSellersData = useSelector(selectSellersEntities);
-  const sellersLoading = useSelector(selectSellersLoading);
-  const [sellersData, setSellersData] = useState();
+  const bringCurrencyData = useSelector(selectCurrencyEntities);
+  const currencyLoading = useSelector(selectCurrencyLoading);
+  const [currencyData, setCurrencyData] = useState();
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    dispatch(getSellers());
+    dispatch(getCurrency());
   }, []);
   useEffect(() => {
-    setSellersData(bringSellersData);
-  }, [bringSellersData]);
+    setCurrencyData(bringCurrencyData);
+  }, [bringCurrencyData]);
 
   if (loading) return <Loading />;
 
@@ -36,41 +36,28 @@ const Sellers = ({ searchTerm = "" }) => {
     <Table className="p-3 rounded-2xl bg-white">
       <thead>
         <tr>
-          <th>الإسم</th>
-          <th>الصفة</th>
-          <th>رقم الهاتف</th>
+          <th>إسم العملة</th>
           <th>عمليات</th>
         </tr>
       </thead>
       <tbody id="tbody">
-        {sellersLoading === "loading" && (
+        {currencyLoading === "loading" && (
           <tr>
             <td>
               <Loading />
             </td>
           </tr>
         )}
-        {sellersData &&
-          sellersLoading !== "loading" &&
-          sellersData
-            .filter((seller) => {
-              const sellerValues = Object.values(seller);
-              return sellerValues.some((value) =>
-                value
-                  .toString()
-                  .toLowerCase()
-                  .includes(searchTerm.toLowerCase())
-              );
-            })
-            .map((seller) => (
-              <tr key={seller.id}>
-                <td key="1">{seller.name}</td>
-                <td key="2">{seller.des}</td>
-                <td key="3">{seller.phone}</td>
-                <td key="4" className="flex gap-2 justify-center">
-                  <Button.small>صورة</Button.small>
+        {currencyData &&
+          currencyLoading !== "loading" &&
+          currencyData
+            .filter((currency) => currency.name.includes(searchTerm))
+            .map((currency) => (
+              <tr key={currency.id}>
+                <td key="1">{currency.name}</td>
+                <td key="2" className="flex gap-2 justify-center">
                   <Button.small>
-                    <Link to="/home/updataSeller" state={seller}>
+                    <Link to="/home/updataCurrency" state={currency}>
                       تعديل
                     </Link>
                   </Button.small>
@@ -80,10 +67,10 @@ const Sellers = ({ searchTerm = "" }) => {
                       if (sure) {
                         handleDeleting(
                           setLoading,
-                          `${userId}/sellers`,
-                          seller.id,
+                          `${userId}/currency`,
+                          currency.id,
                           dispatch,
-                          getSellers
+                          getCurrency
                         );
                       }
                     }}
@@ -98,4 +85,4 @@ const Sellers = ({ searchTerm = "" }) => {
   );
 };
 
-export default Sellers;
+export default Currency;

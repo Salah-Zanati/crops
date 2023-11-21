@@ -37,14 +37,14 @@ const Purchases = () => {
   if (loading) return <Loading />;
 
   return (
-    <Container className="p-5">
+    <Container className="p-5 mb-10">
       <Box className="flex-col gap-5">
-        <div className="flex justify-between gap-5 mt-2">
+        <div className="flex justify-between items-center flex-col gap-5 mt-2 sm:flex-row">
           <Button.large>
             <Link to="/purchases/addPurchase">إضافة فاتورة جديدة</Link>
           </Button.large>
           <div className="flex justify-start items-center gap-3">
-            <p>مربع البحث: </p>
+            <p className="hidden md:block">مربع البحث: </p>
             <Input
               type="text"
               placeholder="بحث..."

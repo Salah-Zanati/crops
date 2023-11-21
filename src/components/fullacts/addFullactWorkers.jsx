@@ -102,7 +102,7 @@ const AddFullactWorkers = ({ update }) => {
           {update ? "تعديل بيانات العامل" : "إضافة عامل"}
         </h1>
         <form className="flex flex-col gap-2">
-          <div className="flex gap-5 items-center">
+          <div className="">
             <label htmlFor="fullactWorkersHoursNum">أدخل عدد الساعات: </label>
             <Input
               id="fullactWorkersHoursNum"

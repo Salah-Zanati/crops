@@ -1,5 +1,3 @@
-import { collection } from "firebase/firestore";
-import { database } from "../firebaseConfig";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -54,7 +52,7 @@ const Login = () => {
           <input
             type="text"
             id="username"
-            placeholder="إسم المستخدم..."
+            placeholder="text"
             value={username}
             className="border-2 border-solid bg-gray-200 border-gray-200 rounded-md py-3 px-5 focus:border-main focus:outline-none"
             onChange={onUsernameChange}
@@ -68,7 +66,7 @@ const Login = () => {
           <input
             type="password"
             id="pass"
-            placeholder="الكود..."
+            placeholder="12345678"
             value={pass}
             className="border-2 border-solid bg-gray-200 border-gray-200 rounded-md py-3 px-5 focus:border-main focus:outline-none"
             onChange={onPassChange}
