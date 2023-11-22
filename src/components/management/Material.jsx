@@ -57,7 +57,10 @@ const Material = ({ searchTerm = "" }) => {
                 <td key="1">{material.name}</td>
                 <td key="2" className="flex gap-2 justify-center">
                   <Button.small>
-                    <Link to="/home/updataMaterial" state={material}>
+                    <Link
+                      to="/home/updataMaterial"
+                      state={{ ...material, chossed: "material" }}
+                    >
                       تعديل
                     </Link>
                   </Button.small>

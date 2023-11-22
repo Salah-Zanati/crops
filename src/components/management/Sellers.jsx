@@ -70,7 +70,10 @@ const Sellers = ({ searchTerm = "" }) => {
                 <td key="4" className="flex gap-2 justify-center">
                   <Button.small>صورة</Button.small>
                   <Button.small>
-                    <Link to="/home/updataSeller" state={seller}>
+                    <Link
+                      to="/home/updataSeller"
+                      state={{ ...seller, chossed: "sellers" }}
+                    >
                       تعديل
                     </Link>
                   </Button.small>

@@ -57,7 +57,10 @@ const Vegs = ({ searchTerm = "" }) => {
                 <td key="1">{veg.name}</td>
                 <td key="2" className="flex gap-2 justify-center">
                   <Button.small>
-                    <Link to="/home/updataVeg" state={veg}>
+                    <Link
+                      to="/home/updataVeg"
+                      state={{ ...veg, chossed: "vegs" }}
+                    >
                       تعديل
                     </Link>
                   </Button.small>

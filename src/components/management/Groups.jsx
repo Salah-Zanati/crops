@@ -68,7 +68,10 @@ const Groups = ({ searchTerm = "" }) => {
                 <td key="3" className="flex gap-2 justify-center">
                   <Button.small>صورة</Button.small>
                   <Button.small>
-                    <Link to="/home/updataGroup" state={group}>
+                    <Link
+                      to="/home/updataGroup"
+                      state={{ ...group, chossed: "groups" }}
+                    >
                       تعديل
                     </Link>
                   </Button.small>

@@ -50,6 +50,7 @@ const Home = () => {
                       : chossed.length
                   )
                 }`}
+                state={{ chossed }}
               >
                 إضافة {AddBtnTxt}
               </Link>

@@ -61,37 +61,42 @@ const Customer = ({ searchTerm = "" }) => {
                   .includes(searchTerm.toLowerCase())
               );
             })
-            .map((customer) => (
-              <tr key={customer.id}>
-                <td key="1">{customer.name}</td>
-                <td key="2">{customer.des}</td>
-                <td key="3">{customer.phone}</td>
-                <td key="4" className="flex gap-2 justify-center">
-                  <Button.small>صورة</Button.small>
-                  <Button.small>
-                    <Link to="/home/updataCustomer" state={customer}>
-                      تعديل
-                    </Link>
-                  </Button.small>
-                  <Button.small
-                    onClick={() => {
-                      const sure = confirm("هل أنت متأكد من الحذف.");
-                      if (sure) {
-                        handleDeleting(
-                          setLoading,
-                          `${userId}/cutsomers`,
-                          customer.id,
-                          dispatch,
-                          getCustomers
-                        );
-                      }
-                    }}
-                  >
-                    حذف
-                  </Button.small>
-                </td>
-              </tr>
-            ))}
+            .map((customer) => {
+              return (
+                <tr key={customer.id}>
+                  <td key="1">{customer.name}</td>
+                  <td key="2">{customer.des}</td>
+                  <td key="3">{customer.phone}</td>
+                  <td key="4" className="flex gap-2 justify-center">
+                    <Button.small>صورة</Button.small>
+                    <Button.small>
+                      <Link
+                        to="/home/updataCustomer"
+                        state={{ ...customer, chossed: "customers" }}
+                      >
+                        تعديل
+                      </Link>
+                    </Button.small>
+                    <Button.small
+                      onClick={() => {
+                        const sure = confirm("هل أنت متأكد من الحذف.");
+                        if (sure) {
+                          handleDeleting(
+                            setLoading,
+                            `${userId}/customers`,
+                            customer.id,
+                            dispatch,
+                            getCustomers
+                          );
+                        }
+                      }}
+                    >
+                      حذف
+                    </Button.small>
+                  </td>
+                </tr>
+              );
+            })}
       </tbody>
     </Table>
   );

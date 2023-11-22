@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import Button from "../styles/Button.styled";
 import Table from "../styles/Table.styled";
 import { useSelector, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
 import Loading from "../animation/Loading";
 import {
@@ -57,7 +57,10 @@ const Acts = ({ searchTerm = "" }) => {
                 <td key="1">{act.name}</td>
                 <td key="2" className="flex gap-2 justify-center">
                   <Button.small>
-                    <Link to="/home/updataAct" state={act}>
+                    <Link
+                      to="/home/updataAct"
+                      state={{ ...act, chossed: "acts" }}
+                    >
                       تعديل
                     </Link>
                   </Button.small>

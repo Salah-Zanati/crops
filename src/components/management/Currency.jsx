@@ -57,7 +57,10 @@ const Currency = ({ searchTerm = "" }) => {
                 <td key="1">{currency.name}</td>
                 <td key="2" className="flex gap-2 justify-center">
                   <Button.small>
-                    <Link to="/home/updataCurrency" state={currency}>
+                    <Link
+                      to="/home/updataCurrency"
+                      state={{ ...currency, chossed: "currency" }}
+                    >
                       تعديل
                     </Link>
                   </Button.small>

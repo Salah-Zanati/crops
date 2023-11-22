@@ -20,7 +20,7 @@ export const convertDate = (date) => {
 export const handleAdding = (setLoading, path, data) => {
   const collectionRef = collection(database, `users/${path}`);
   setLoading(true);
-  addDoc(collectionRef, { ...data })
+  addDoc(collectionRef, data())
     .then(() => {
       setLoading(false);
       alert("تمت الإضافة بنجاح.");
@@ -33,7 +33,7 @@ export const handleAdding = (setLoading, path, data) => {
 export const handleUpdating = (setLoading, path, docId, data) => {
   const docToUpdate = doc(database, `users/${path}`, docId);
   setLoading(true);
-  updateDoc(docToUpdate, { ...data })
+  updateDoc(docToUpdate, data())
     .then(() => {
       setLoading(false);
       alert("تم التعديل بنجاح.");

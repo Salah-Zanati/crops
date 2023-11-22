@@ -27,6 +27,7 @@ import { useSelector } from "react-redux";
 import { selectAccess } from "./toolkit/loginSlice";
 import Navbar from "./components/Navbar";
 import AddCurrency from "./components/management/addCurrency";
+import Add_Update from "./components/management/Add_Update";
 
 const theme = {
   colors: {
@@ -51,46 +52,47 @@ function App() {
               <Routes>
                 {/* Management section */}
                 <Route path="/" element={<Home />} />
-                <Route path="/home/addWorker" element={<AddWorker />} />
-                <Route
-                  path="/home/updataWorker"
-                  element={<AddWorker update={true} />}
-                />
-                <Route path="/home/addSeller" element={<AddSeller />} />
-                <Route
-                  path="/home/updataSeller"
-                  element={<AddSeller update={true} />}
-                />
-                <Route path="/home/addCustomer" element={<AddCustomer />} />
-                <Route
-                  path="/home/updataCustomer"
-                  element={<AddCustomer update={true} />}
-                />
-                <Route path="/home/addAct" element={<AddAct />} />
-                <Route
-                  path="/home/updataAct"
-                  element={<AddAct update={true} />}
-                />
-                <Route path="/home/addVeg" element={<AddVeg />} />
-                <Route
-                  path="/home/updataVeg"
-                  element={<AddVeg update={true} />}
-                />
-                <Route path="/home/AddMaterial" element={<AddMaterial />} />
-                <Route
-                  path="/home/updataMaterial"
-                  element={<AddMaterial update={true} />}
-                />
-                <Route path="/home/AddGroup" element={<AddGroup />} />
-                <Route
-                  path="/home/updataGroup"
-                  element={<AddGroup update={true} />}
-                />
-                <Route path="/home/AddCurrency" element={<AddCurrency />} />
-                <Route
-                  path="/home/updataCurrency"
-                  element={<AddCurrency update={true} />}
-                />
+                {(() => {
+                  let addingMangRoutes = [
+                    "addWorker",
+                    "addSeller",
+                    "addCustomer",
+                    "addAct",
+                    "addVeg",
+                    "addMaterial",
+                    "addGroup",
+                    "addCurrency",
+                  ];
+                  let updatingMangRoutes = [
+                    "updataWorker",
+                    "updataSeller",
+                    "updataCustomer",
+                    "updataAct",
+                    "updataVeg",
+                    "updataMaterial",
+                    "updataGroup",
+                    "updataCurrency",
+                  ];
+                  const routes = [];
+                  for (let i = 0; i < addingMangRoutes.length; i++) {
+                    routes.push(
+                      <Route
+                        key={i}
+                        path={"/home/" + addingMangRoutes[i]}
+                        element={<Add_Update />}
+                      />
+                    );
+                    routes.push(
+                      <Route
+                        key={i + 100}
+                        path={"/home/" + updatingMangRoutes[i]}
+                        element={<Add_Update update={true} />}
+                      />
+                    );
+                  }
+                  console.log(addingMangRoutes);
+                  return routes;
+                })()}
 
                 {/* Sales section */}
                 <Route path="/sales" element={<Sales />} />
