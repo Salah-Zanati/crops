@@ -9,8 +9,6 @@ export const getFullactWorkers = createAsyncThunk(
   "fullactWorkers/getFullactWorkers",
   async (fullactId, { getState }) => {
     try {
-      // const fullactsDocRef = doc(database, "fullacts", fullactId);
-      // const expenesesRef = collection(fullactsDocRef, "fullactWorkers");
       const userId = getState().users.ref;
       const collectionRef = collection(
         database,
@@ -21,7 +19,6 @@ export const getFullactWorkers = createAsyncThunk(
       const data = await Promise.all(
         querySnapshot.docs.map(async (item) => {
           const { worker, ...rest } = item.data();
-          // Fetch the worker document using the reference
           const workerDoc = await getDoc(worker);
           const workerName = workerDoc.data().name;
           const workerId = workerDoc.id;

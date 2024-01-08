@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import ButtonStyled from "./styles/Button.styled";
 import Input from "./styles/Input.styled";
 import Select from "./styles/Select.styled";
-
 import Workers from "./management/Workers";
 import Sellers from "./management/Sellers";
 import Vegs from "./management/Vegs";
@@ -75,12 +74,6 @@ const Home = () => {
               <option value="vegs" data-arabic="صنف">
                 الأصناف
               </option>
-              {/* <option value="acts" data-arabic="عملية">
-                العمليات
-              </option> */}
-              {/* <option value="material" data-arabic="مادة">
-                المواد
-              </option> */}
               <option value="groups" data-arabic="ورشة">
                 الورش
               </option>

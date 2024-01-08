@@ -16,7 +16,6 @@ export const getFullacts = createAsyncThunk(
       const data = await Promise.all(
         querySnapshot.docs.map(async (item) => {
           let { act, veg, date, currency, ...rest } = item.data();
-          // Fetch the act document and veg document using the reference
           if (typeof act !== "string") act = "غير موجود";
 
           const vegDoc = await getDoc(veg);

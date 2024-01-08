@@ -4,51 +4,6 @@ import { database } from "../firebaseConfig";
 
 const initialState = { entities: [], loading: "idle" };
 
-// export const addDocumentToInnerCollection = createAsyncThunk(
-//   "workers/addDocumentToInnerCollection",
-//   async (documentData) => {
-//     try {
-//       const userId = useSelector(selectUserId);
-//       const userDocRef = doc(database, "users", userId);
-//       const innerCollectionRef = collection(userDocRef, "innerCollection");
-
-// await setDoc(doc(innerCollectionRef), documentData);
-//     } catch (err) {
-//       throw new Error(err);
-//     }
-//   }
-// );
-
-// export const updateDocumentInInnerCollection = createAsyncThunk(
-//   "workers/updateDocumentInInnerCollection",
-//   async ({ documentId, documentData }) => {
-//     try {
-//       const userId = useSelector(selectUserId);
-//       const userDocRef = doc(database, "users", userId);
-//       const innerCollectionRef = collection(userDocRef, "innerCollection");
-
-//       await updateDoc(doc(innerCollectionRef, documentId), documentData);
-//     } catch (err) {
-//       throw new Error(err);
-//     }
-//   }
-// );
-
-// export const deleteDocumentFromInnerCollection = createAsyncThunk(
-//   "workers/deleteDocumentFromInnerCollection",
-//   async (documentId) => {
-//     try {
-//       const userId = useSelector(selectUserId);
-//       const userDocRef = doc(database, "users", userId);
-//       const innerCollectionRef = collection(userDocRef, "innerCollection");
-
-// await deleteDoc(doc(innerCollectionRef, documentId));
-//     } catch (err) {
-//       throw new Error(err);
-//     }
-//   }
-// );
-
 export const getWorkers = createAsyncThunk(
   "workers/getWorkers",
   async (_, { getState }) => {
