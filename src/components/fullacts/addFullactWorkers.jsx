@@ -71,27 +71,26 @@ const AddFullactWorkers = ({ update }) => {
   const onIsPaidChange = () => setIsPaid(!isPaid);
 
   // Handle submit
+  const submitingObject = () => {
+    let obj = {};
+    obj.hoursNum = hoursNum;
+    obj.worker = worker;
+    obj.isPaid = isPaid;
+    return { ...obj };
+  };
   const handleSubmitBtn = () => {
     if (!update)
       handleAdding(
         setLoading,
         `${userId}/fullacts/${fullactId}/fullactWorkers`,
-        {
-          hoursNum,
-          worker,
-          isPaid,
-        }
+        submitingObject
       );
     if (update)
       handleUpdating(
         setLoading,
         `${userId}/fullacts/${fullactId}/fullactWorkers`,
         state.id,
-        {
-          hoursNum,
-          worker,
-          isPaid,
-        }
+        submitingObject
       );
   };
 

@@ -58,10 +58,10 @@ const Purchases = () => {
           <thead>
             <tr>
               <th>الشراء</th>
-              <th>الكمية</th>
-              <th>السعر</th>
+              <th className="hidden md:block">الكمية</th>
+              <th className="hidden md:block">السعر</th>
               <th>الإجمالي</th>
-              <th>الصنف</th>
+              <th className="hidden md:block">الصنف</th>
               <th>التاريخ</th>
               <th>البائع</th>
               <th>مسددة ام لا</th>
@@ -88,14 +88,26 @@ const Purchases = () => {
                       .includes(searchTerm.toLowerCase())
                   );
                 })
+                .sort(function (a, b) {
+                  return new Date(b.date) - new Date(a.date);
+                })
                 .map((purchase) => {
                   return (
                     <tr key={purchase.id}>
-                      <td key="1">{purchase.materialName}</td>
-                      <td key="2">{purchase.quantity}</td>
-                      <td key="3">{purchase.price}</td>
-                      <td key="8">{purchase.price * purchase.quantity}</td>
-                      <td key="9">{purchase.vegName}</td>
+                      <td key="1">{purchase.material}</td>
+                      <td className="hidden md:block" key="2">
+                        {purchase.quantity}
+                      </td>
+                      <td className="hidden md:block" key="3">
+                        {purchase.price} {purchase.currencyName}
+                      </td>
+                      <td key="8">
+                        {purchase.price * purchase.quantity}{" "}
+                        {purchase.currencyName}
+                      </td>
+                      <td className="hidden md:block" key="9">
+                        {purchase.vegName}
+                      </td>
                       <td key="4">{purchase.date}</td>
                       <td key="5">
                         {purchase.sellerName

@@ -18,11 +18,6 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { Timestamp, doc } from "firebase/firestore";
 import { database } from "../../firebaseConfig";
-import {
-  getActs,
-  selectActsEntities,
-  selectActsLoading,
-} from "../../toolkit/actsSlice";
 import LoadingLine from "../animation/LoadingLine";
 import SelectMenu from "../styles/SelectMenu";
 import { selectUserId } from "../../toolkit/loginSlice";
@@ -31,6 +26,11 @@ import {
   handleAdding,
   handleUpdating,
 } from "../../utils/functions";
+import {
+  getCurrency,
+  selectCurrencyEntities,
+  selectCurrencyLoading,
+} from "../../toolkit/currencySlice";
 
 // eslint-disable-next-line react/prop-types
 const AddGroupsAct = ({ update }) => {
@@ -40,18 +40,19 @@ const AddGroupsAct = ({ update }) => {
 
   const bringVegData = useSelector(selectVegsEntities);
   const vegsLoading = useSelector(selectVegsLoading);
-  const bringActData = useSelector(selectActsEntities);
-  const actsLoading = useSelector(selectActsLoading);
   const bringGroupData = useSelector(selectGroupsEntities);
   const groupsLoading = useSelector(selectGroupsLoading);
+  const bringCurrencyData = useSelector(selectCurrencyEntities);
+  const currencyLoading = useSelector(selectCurrencyLoading);
 
   // Inputs states
   const [hourPrice, setHourPrice] = useState(0);
   const [veg, setVeg] = useState(
     doc(database, `users/${userId}/vegs`, "00000000000000000000")
   );
-  const [act, setAct] = useState(
-    doc(database, `users/${userId}/acts`, "00000000000000000000")
+  const [act, setAct] = useState("");
+  const [currency, setCurrency] = useState(
+    doc(database, `users/${userId}/currency`, "00000000000000000000")
   );
   const [group, setGroup] = useState(
     doc(database, `users/${userId}/groups`, "00000000000000000000")
@@ -65,31 +66,31 @@ const AddGroupsAct = ({ update }) => {
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     vegsLoading === "loading" ||
-    actsLoading === "loading" ||
-    groupsLoading === "loading"
+    groupsLoading === "loading" ||
+    currencyLoading === "loading"
       ? setLoading(true)
       : setLoading(false);
-  }, [vegsLoading, actsLoading, groupsLoading]);
+  }, [vegsLoading, groupsLoading, currencyLoading]);
 
   // Getting data and setting it to vegsData state
   const [vegsData, setVegsData] = useState([]);
-  const [actsData, setActsData] = useState([]);
   const [groupsData, setgroupsData] = useState([]);
+  const [currencyData, setCurrencyData] = useState();
 
   useEffect(() => {
     dispatch(getVegs());
-    dispatch(getActs());
     dispatch(getGroups());
+    dispatch(getCurrency());
   }, []);
   useEffect(() => {
     setVegsData(bringVegData);
   }, [bringVegData]);
   useEffect(() => {
-    setActsData(bringActData);
-  }, [bringActData]);
-  useEffect(() => {
     setgroupsData(bringGroupData);
   }, [bringGroupData]);
+  useEffect(() => {
+    setCurrencyData(bringCurrencyData);
+  }, [bringCurrencyData]);
 
   // filling the states on update
   useEffect(() => {
@@ -97,10 +98,15 @@ const AddGroupsAct = ({ update }) => {
       setLoading(true);
       const vegDoc = doc(database, `users/${userId}/vegs`, state.vegId);
       setVeg(vegDoc);
-      const actDoc = doc(database, `users/${userId}/acts`, state.actId);
-      setAct(actDoc);
+      setAct(state.act);
       const groupDoc = doc(database, `users/${userId}/groups`, state.groupId);
       setGroup(groupDoc);
+      const currencyDoc = doc(
+        database,
+        `users/${userId}/currency`,
+        state.currencyId
+      );
+      setCurrency(currencyDoc);
       setHourPrice(Number(state.hourPrice));
       setWorkersNum(Number(state.workersNum));
       setHourPrice(Number(state.hourPrice));
@@ -114,6 +120,7 @@ const AddGroupsAct = ({ update }) => {
 
   // onChange
   const onHourPriceChange = (e) => setHourPrice(Number(e.target.value));
+  const onActChange = (e) => setAct(e.target.value);
   const onHoursNumChagne = (e) => setHoursNum(Number(e.target.value));
   const onWorkersNumChange = (e) => setWorkersNum(Number(e.target.value));
   const onIsPaidChange = () => setIsPaid(!isPaid);
@@ -124,29 +131,29 @@ const AddGroupsAct = ({ update }) => {
   };
 
   // Handle submit
+  const submitingObject = () => {
+    let obj = {};
+    obj.veg = veg;
+    obj.act = act;
+    obj.group = group;
+    obj.hoursNum = hoursNum;
+    obj.workersNum = workersNum;
+    obj.hourPrice = hourPrice;
+    obj.isPaid = isPaid;
+    obj.date = date;
+    obj.currency = currency;
+    return { ...obj };
+  };
   const handleSubmitBtn = () => {
     if (!update)
-      handleAdding(setLoading, `${userId}/groupsActs`, {
-        act,
-        veg,
-        group,
-        hoursNum,
-        workersNum,
-        hourPrice,
-        isPaid,
-        date,
-      });
+      handleAdding(setLoading, `${userId}/groupsActs`, submitingObject);
     if (update)
-      handleUpdating(setLoading, `${userId}/groupsActs`, state.id, {
-        act,
-        veg,
-        group,
-        hoursNum,
-        workersNum,
-        hourPrice,
-        isPaid,
-        date,
-      });
+      handleUpdating(
+        setLoading,
+        `${userId}/groupsActs`,
+        state.id,
+        submitingObject
+      );
   };
 
   return (
@@ -202,18 +209,23 @@ const AddGroupsAct = ({ update }) => {
                 disabled={loading}
               />
             </div>
-          </div>
-          <div className="flex gap-5 items-center flex-wrap">
             <div>
-              <label htmlFor="groupsActAct">العمليات</label>
-              <SelectMenu
-                conectionName="acts"
-                data={actsData && actsData}
-                listName="إختر عملية"
-                setValue={() => setAct}
-                selectedItem={update && state.actId}
+              <label htmlFor="act" className="block">
+                أدخل العملية:{" "}
+              </label>
+              <Input
+                id="act"
+                name="act"
+                type="text"
+                className="w-36"
+                placeholder="أدخل العملية..."
+                value={update && act}
+                onChange={onActChange}
+                disabled={loading}
               />
             </div>
+          </div>
+          <div className="flex gap-5 items-center flex-wrap">
             <div>
               <label htmlFor="groupsActVeg">الأصناف</label>
               <SelectMenu
@@ -225,13 +237,23 @@ const AddGroupsAct = ({ update }) => {
               />
             </div>
             <div>
-              <label htmlFor="groupsActVeg">الورشة</label>
+              <label htmlFor="groupsActVeg">الورش</label>
               <SelectMenu
                 conectionName="groups"
                 data={groupsData && groupsData}
                 listName="إختر ورشة"
                 setValue={() => setGroup}
                 selectedItem={update && state.groupId}
+              />
+            </div>
+            <div>
+              <label htmlFor="currency">العملات</label>
+              <SelectMenu
+                conectionName="currency"
+                data={currencyData && currencyData}
+                listName="إختر عملة"
+                setValue={() => setCurrency}
+                selectedItem={update && state.currencyId}
               />
             </div>
           </div>

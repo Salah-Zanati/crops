@@ -57,8 +57,8 @@ const Sales = () => {
           <thead>
             <tr>
               <th>الصنف</th>
-              <th>السعر</th>
-              <th>الكمية</th>
+              <th className="hidden md:block">السعر</th>
+              <th className="hidden md:block">الكمية</th>
               <th>الإجمالي</th>
               <th>التاريخ</th>
               <th>الزبون</th>
@@ -86,42 +86,57 @@ const Sales = () => {
                       .includes(searchTerm.toLowerCase())
                   );
                 })
-                .map((sale) => (
-                  <tr key={sale.id}>
-                    <td key="1">{sale.vegName}</td>
-                    <td key="3">{sale.price}</td>
-                    <td key="2">{sale.quantity}</td>
-                    <td key="8">{(sale.price * sale.quantity).toFixed(2)}</td>
-                    <td key="4">{sale.date}</td>
-                    <td key="5">
-                      {sale.customerName ? sale.customerName : "غير معروف"}
-                    </td>
-                    <td key="6">{sale.isPaid ? "مسددة" : "غير مسددة"}</td>
-                    <td key="7" className="flex gap-2 justify-center">
-                      <Button.small>
-                        <Link to="/sales/updataSale" state={sale}>
-                          تعديل
-                        </Link>
-                      </Button.small>
-                      <Button.small
-                        onClick={() => {
-                          const sure = confirm("هل أنت متأكد من الحذف.");
-                          if (sure) {
-                            handleDeleting(
-                              setLoading,
-                              `${userId}/sales`,
-                              sale.id,
-                              dispatch,
-                              getSales
-                            );
-                          }
-                        }}
+                .sort(function (a, b) {
+                  return new Date(b.date) - new Date(a.date);
+                })
+                .map((sale) => {
+                  return (
+                    <tr key={sale.id}>
+                      <td key="1">{sale.vegName}</td>
+                      <td className="hidden md:block" key="3">
+                        {sale.price} {sale.currencyName}
+                      </td>
+                      <td className="hidden md:block" key="2">
+                        {sale.quantity}
+                      </td>
+                      <td key="8">
+                        {(sale.price * sale.quantity).toFixed(2)}{" "}
+                        {sale.currencyName}
+                      </td>
+                      <td key="4">{sale.date}</td>
+                      <td key="5">
+                        {sale.customerName ? sale.customerName : "غير معروف"}
+                      </td>
+                      <td key="6">{sale.isPaid ? "مسددة" : "غير مسددة"}</td>
+                      <td
+                        key="7"
+                        className="flex gap-2 justify-center flex-wrap"
                       >
-                        حذف
-                      </Button.small>
-                    </td>
-                  </tr>
-                ))}
+                        <Button.small>
+                          <Link to="/sales/updataSale" state={sale}>
+                            تعديل
+                          </Link>
+                        </Button.small>
+                        <Button.small
+                          onClick={() => {
+                            const sure = confirm("هل أنت متأكد من الحذف.");
+                            if (sure) {
+                              handleDeleting(
+                                setLoading,
+                                `${userId}/sales`,
+                                sale.id,
+                                dispatch,
+                                getSales
+                              );
+                            }
+                          }}
+                        >
+                          حذف
+                        </Button.small>
+                      </td>
+                    </tr>
+                  );
+                })}
           </tbody>
         </Table>
       </Box>

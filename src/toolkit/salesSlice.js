@@ -16,7 +16,7 @@ export const getSales = createAsyncThunk(
       const querySnapshot = await getDocs(collectionRef);
       const data = await Promise.all(
         querySnapshot.docs.map(async (item) => {
-          const { customer, veg, date, ...rest } = item.data();
+          const { customer, veg, currency, date, ...rest } = item.data();
           // Fetch the customer document using the reference
           const customerDoc = await getDoc(customer);
           var customerName = "غير موجود",
@@ -25,13 +25,22 @@ export const getSales = createAsyncThunk(
             customerName = customerDoc.data().name;
             customerId = customerDoc.id;
           }
-
           const vegDoc = await getDoc(veg);
           var vegName = "غير موجود",
             vegId = "00000000000000000000";
-          if (customerDoc.exists()) {
+          if (vegDoc.exists()) {
             vegName = vegDoc.data().name;
             vegId = vegDoc.id;
+          }
+
+          var currencyName = "غير موجود",
+            currencyId = "00000000000000000000";
+          if (currency) {
+            const currencyDoc = await getDoc(currency);
+            if (currencyDoc.exists()) {
+              currencyName = currencyDoc.data().name;
+              currencyId = currencyDoc.id;
+            }
           }
 
           const theDate = convertDate(date.toMillis());
@@ -42,8 +51,10 @@ export const getSales = createAsyncThunk(
             date: theDate,
             customerName,
             vegName,
+            currencyName,
             vegId,
             customerId,
+            currencyId,
           };
         })
       );

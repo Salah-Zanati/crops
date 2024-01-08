@@ -11,11 +11,6 @@ import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  getMaterial,
-  selectMaterialEntities,
-  selectMaterialLoading,
-} from "../../toolkit/materialSlice";
-import {
   getSellers,
   selectSellersEntities,
   selectSellersLoading,
@@ -32,6 +27,11 @@ import {
   handleAdding,
   handleUpdating,
 } from "../../utils/functions";
+import {
+  getCurrency,
+  selectCurrencyEntities,
+  selectCurrencyLoading,
+} from "../../toolkit/currencySlice.js";
 
 // eslint-disable-next-line react/prop-types
 const AddPurchase = ({ update }) => {
@@ -41,35 +41,36 @@ const AddPurchase = ({ update }) => {
   const [price, setPrice] = useState();
   const [date, setDate] = useState(Timestamp.fromDate(new Date()));
   const [isPaid, setIsPaid] = useState(false);
-  const [material, setMaterial] = useState(
-    doc(database, `users/${userId}/material`, "00000000000000000000")
-  );
+  const [material, setMaterial] = useState("");
   const [seller, setSeller] = useState(
     doc(database, `users/${userId}/sellers`, "00000000000000000000")
   );
   const [veg, setVeg] = useState(
     doc(database, `users/${userId}/vegs`, "00000000000000000000")
   );
+  const [currency, setCurrency] = useState(
+    doc(database, `users/${userId}/currency`, "00000000000000000000")
+  );
   const [loading, setLoading] = useState(false);
-  const [materialData, setMaterialData] = useState();
   const [sellersData, setSellersData] = useState();
   const [vegsData, setVegsData] = useState();
+  const [currencyData, setCurrencyData] = useState();
 
   const dispatch = useDispatch();
 
-  const bringMaterialData = useSelector(selectMaterialEntities);
   const bringSellersData = useSelector(selectSellersEntities);
   const bringVegsData = useSelector(selectVegsEntities);
-  const materialLoading = useSelector(selectMaterialLoading);
   const sellersLoading = useSelector(selectSellersLoading);
   const vegsLoading = useSelector(selectVegsLoading);
+  const bringCurrencyData = useSelector(selectCurrencyEntities);
+  const currencyLoading = useSelector(selectCurrencyLoading);
 
   let { state } = useLocation();
 
   useEffect(() => {
-    dispatch(getMaterial());
     dispatch(getSellers());
     dispatch(getVegs());
+    dispatch(getCurrency());
   }, []);
 
   useEffect(() => {
@@ -77,19 +78,20 @@ const AddPurchase = ({ update }) => {
   }, [bringSellersData]);
 
   useEffect(() => {
-    setMaterialData(bringMaterialData);
-  }, [bringMaterialData]);
-  useEffect(() => {
     setVegsData(bringVegsData);
   }, [bringVegsData]);
 
   useEffect(() => {
-    materialLoading === "loading" ||
+    setCurrencyData(bringCurrencyData);
+  }, [bringCurrencyData]);
+
+  useEffect(() => {
     sellersLoading === "loading" ||
-    vegsLoading === "loading"
+    vegsLoading === "loading" ||
+    currencyLoading === "loading"
       ? setLoading(true)
       : setLoading(false);
-  }, [materialLoading, sellersLoading, vegsLoading]);
+  }, [sellersLoading, vegsLoading, currencyLoading]);
 
   useEffect(() => {
     if (update) {
@@ -100,12 +102,7 @@ const AddPurchase = ({ update }) => {
       const timestemp = Timestamp.fromDate(selectedDate);
       setDate(timestemp);
       setIsPaid(state.isPaid);
-      const materialDoc = doc(
-        database,
-        `users/${userId}/material`,
-        state.materialId
-      );
-      setMaterial(materialDoc);
+      setMaterial(state.material);
       const sellerDoc = doc(
         database,
         `users/${userId}/sellers`,
@@ -113,11 +110,18 @@ const AddPurchase = ({ update }) => {
       );
       setSeller(sellerDoc);
       const vegDoc = doc(database, `users/${userId}/vegs`, state.vegId);
+      const currencyDoc = doc(
+        database,
+        `users/${userId}/currency`,
+        state.currencyId
+      );
+      setCurrency(currencyDoc);
       setVeg(vegDoc);
       setLoading(false);
     }
   }, []);
   const onQuantityChange = (e) => setQuantity(Number(e.target.value));
+  const onMaterialChange = (e) => setMaterial(e.target.value);
   const onPriceChange = (e) => setPrice(Number(e.target.value));
   const onDateChange = (e) => {
     const selectedDate = new Date(e.target.value);
@@ -127,27 +131,28 @@ const AddPurchase = ({ update }) => {
   const onIsPaidChange = () => setIsPaid(!isPaid);
 
   // Handle submit
+  const submitingObject = () => {
+    let obj = {};
+    obj.veg = veg;
+    obj.material = material;
+    obj.quantity = quantity;
+    obj.price = price;
+    obj.date = date;
+    obj.seller = seller;
+    obj.currency = currency;
+    obj.isPaid = isPaid;
+    return { ...obj };
+  };
   const handleSubmitBtn = () => {
     if (!update)
-      handleAdding(setLoading, `${userId}/purchases`, {
-        material,
-        quantity,
-        price,
-        date,
-        veg,
-        seller,
-        isPaid,
-      });
+      handleAdding(setLoading, `${userId}/purchases`, submitingObject);
     if (update)
-      handleUpdating(setLoading, `${userId}/purchases`, state.id, {
-        material,
-        quantity,
-        price,
-        date,
-        veg,
-        seller,
-        isPaid,
-      });
+      handleUpdating(
+        setLoading,
+        `${userId}/purchases`,
+        state.id,
+        submitingObject
+      );
   };
 
   return (
@@ -186,18 +191,23 @@ const AddPurchase = ({ update }) => {
                 disabled={loading}
               />
             </div>
-          </div>
-          <div className="flex gap-5 flex-wrap items-center">
             <div>
-              <label htmlFor="purchaseMaterial">المواد: </label>
-              <SelectMenu
-                conectionName="material"
-                data={materialData && materialData}
-                listName="إختر مادة"
-                setValue={() => setMaterial}
-                selectedItem={update && state.materialId}
+              <label htmlFor="purchaseMaterial" className="block">
+                المواد:{" "}
+              </label>
+              <Input
+                id="purchaseMaterial"
+                name="purchaseMaterial"
+                type="text
+              "
+                placeholder="المادة..."
+                value={update && material}
+                onChange={onMaterialChange}
+                disabled={loading}
               />
             </div>
+          </div>
+          <div className="flex gap-5 flex-wrap items-center">
             <div>
               <label htmlFor="purchaseSeller">البائعين: </label>
               <SelectMenu
@@ -216,6 +226,16 @@ const AddPurchase = ({ update }) => {
                 listName="إختر صنف"
                 setValue={() => setVeg}
                 selectedItem={update && state.vegId}
+              />
+            </div>
+            <div>
+              <label htmlFor="currency">العملة: </label>
+              <SelectMenu
+                conectionName="currency"
+                data={currencyData && currencyData}
+                listName="إختر عملة"
+                setValue={() => setCurrency}
+                selectedItem={update && state.currencyId}
               />
             </div>
           </div>

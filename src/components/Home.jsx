@@ -75,12 +75,12 @@ const Home = () => {
               <option value="vegs" data-arabic="صنف">
                 الأصناف
               </option>
-              <option value="acts" data-arabic="عملية">
+              {/* <option value="acts" data-arabic="عملية">
                 العمليات
-              </option>
-              <option value="material" data-arabic="مادة">
+              </option> */}
+              {/* <option value="material" data-arabic="مادة">
                 المواد
-              </option>
+              </option> */}
               <option value="groups" data-arabic="ورشة">
                 الورش
               </option>

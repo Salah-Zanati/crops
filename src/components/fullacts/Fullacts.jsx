@@ -107,12 +107,12 @@ const Fullact = () => {
               <thead>
                 <tr>
                   <th>التاريخ</th>
-                  <th>العملية</th>
+                  <th className="hidden md:block">العملية</th>
                   <th>الصنف</th>
                   <th>صاحب الورشة</th>
-                  <th>عدد الساعات</th>
-                  <th>سعر الساعة</th>
-                  <th>عدد العمال</th>
+                  <th className="hidden md:block">عدد الساعات</th>
+                  <th className="hidden md:block">سعر الساعة</th>
+                  <th className="hidden md:block">عدد العمال</th>
                   <th>الإجمالي</th>
                   <th>مسددة أم لا</th>
                   <th>العمليات</th>
@@ -131,27 +131,42 @@ const Fullact = () => {
                           .includes(searchTerm.toLowerCase())
                       );
                     })
+                    .sort(function (a, b) {
+                      return new Date(b.date) - new Date(a.date);
+                    })
                     .map((act) => {
                       return (
                         <tr key={act.id}>
                           <td key="1">{act.date}</td>
-                          <td key="2">{act.actName}</td>
+                          <td className="hidden md:block" key="2">
+                            {act.act}
+                          </td>
                           <td key="3">{act.vegName}</td>
                           <td key="4">{act.groupName}</td>
-                          <td key="5">{act.hoursNum}</td>
-                          <td key="6">{act.hourPrice}</td>
-                          <td key="7">{act.workersNum}</td>
+                          <td className="hidden md:block" key="5">
+                            {act.hoursNum}
+                          </td>
+                          <td className="hidden md:block" key="6">
+                            {act.hourPrice} {act.currencyName}
+                          </td>
+                          <td className="hidden md:block" key="7">
+                            {act.workersNum}
+                          </td>
                           <td key="8">
                             {(
                               act.workersNum *
                               act.hoursNum *
                               act.hourPrice
-                            ).toFixed(2)}
+                            ).toFixed(2)}{" "}
+                            {act.currencyName}
                           </td>
                           <td key="10">
                             {act.isPaid === true ? "مسددة" : "غير مسددة"}
                           </td>
-                          <td key="9" className="flex gap-2 justify-center">
+                          <td
+                            key="9"
+                            className="flex gap-2 justify-center flex-wrap"
+                          >
                             <Button.small
                               onClick={() => {
                                 const sure = confirm("هل أنت متأكد من الحذف.");
@@ -186,7 +201,7 @@ const Fullact = () => {
               <thead>
                 <tr>
                   <th>التاريخ</th>
-                  <th>العملية</th>
+                  <th className="hidden md:block">العملية</th>
                   <th>الصنف</th>
                   <th>سعر الساعة</th>
                   <th>عمليات</th>
@@ -205,14 +220,24 @@ const Fullact = () => {
                           .includes(searchTerm.toLowerCase())
                       );
                     })
+                    .sort(function (a, b) {
+                      return new Date(b.date) - new Date(a.date);
+                    })
                     .map((fullact) => {
                       return (
                         <tr key={fullact.id}>
                           <td key="1">{fullact.date}</td>
-                          <td key="2">{fullact.actName}</td>
+                          <td className="hidden md:block" key="2">
+                            {fullact.act}
+                          </td>
                           <td key="3">{fullact.vegName}</td>
-                          <td key="4">{fullact.hourPrice}</td>
-                          <td key="5" className="flex gap-2 justify-center">
+                          <td key="4">
+                            {fullact.hourPrice} {fullact.currencyName}
+                          </td>
+                          <td
+                            key="5"
+                            className="flex gap-2 justify-center flex-wrap"
+                          >
                             <Button.small>
                               <Link
                                 to="/fullacts/updateFullact"

@@ -16,7 +16,7 @@ export const getPurchases = createAsyncThunk(
       const querySnapshot = await getDocs(collectionRef);
       const data = await Promise.all(
         querySnapshot.docs.map(async (item) => {
-          const { seller, material, veg, date, ...rest } = item.data();
+          let { seller, currency, material, veg, date, ...rest } = item.data();
           // Fetch the seller document and material document using the reference
           const sellerDoc = await getDoc(seller);
           var sellerName = "غير موجود",
@@ -25,14 +25,7 @@ export const getPurchases = createAsyncThunk(
             sellerName = sellerDoc.data().name;
             sellerId = sellerDoc.id;
           }
-
-          const materialDoc = await getDoc(material);
-          var materialName = "غير موجود",
-            materialId = "00000000000000000000";
-          if (materialDoc.exists()) {
-            materialName = materialDoc.data().name;
-            materialId = materialDoc.id;
-          }
+          if (typeof material !== "string") material = "غير موجود";
 
           const vegDoc = await getDoc(veg);
           var vegName = "غير موجود",
@@ -40,6 +33,15 @@ export const getPurchases = createAsyncThunk(
           if (vegDoc.exists()) {
             vegName = vegDoc.data().name;
             vegId = vegDoc.id;
+          }
+          var currencyName = "غير موجود",
+            currencyId = "00000000000000000000";
+          if (currency) {
+            const currencyDoc = await getDoc(currency);
+            if (currencyDoc.exists()) {
+              currencyName = currencyDoc.data().name;
+              currencyId = currencyDoc.id;
+            }
           }
 
           const theDate = convertDate(date.toMillis());
@@ -49,11 +51,12 @@ export const getPurchases = createAsyncThunk(
             id: item.id,
             date: theDate,
             sellerName,
-            materialName,
-            materialId,
             sellerId,
             vegName,
             vegId,
+            currencyId,
+            currencyName,
+            material,
           };
         })
       );

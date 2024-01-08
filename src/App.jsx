@@ -8,25 +8,17 @@ import Purchases from "./components/purchases/Purchases";
 import Sales from "./components/sales/Sales";
 import Sidebar from "./components/Sidebar";
 import Home from "./components/Home";
-import AddWorker from "./components/management/AddWorker";
-import AddSeller from "./components/management/AddSeller";
-import AddCustomer from "./components/management/AddCustomer";
-import AddAct from "./components/management/AddAct";
-import AddVeg from "./components/management/AddVeg";
 import AddSale from "./components/sales/AddSale";
-import AddMaterial from "./components/management/AddMaterial";
 import AddPurchase from "./components/purchases/AddPurchase";
 import AddExpenses from "./components/purchases/AddExpenses";
 import Fullacts from "./components/fullacts/Fullacts";
 import AddFullact from "./components/fullacts/AddFullact";
 import FullactWorkers from "./components/fullacts/FullactWorkers";
 import AddFullactWorkers from "./components/fullacts/AddFullactWorkers";
-import AddGroup from "./components/management/AddGroup";
 import AddGroupsAct from "./components/fullacts/addGroupsAct";
 import { useSelector } from "react-redux";
 import { selectAccess } from "./toolkit/loginSlice";
 import Navbar from "./components/Navbar";
-import AddCurrency from "./components/management/addCurrency";
 import Add_Update from "./components/management/Add_Update";
 
 const theme = {
@@ -90,7 +82,6 @@ function App() {
                       />
                     );
                   }
-                  console.log(addingMangRoutes);
                   return routes;
                 })()}
 

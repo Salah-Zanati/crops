@@ -20,6 +20,11 @@ import {
   selectCustomersEntities,
   selectCustomersLoading,
 } from "../../toolkit/customersSlice";
+import {
+  getCurrency,
+  selectCurrencyEntities,
+  selectCurrencyLoading,
+} from "../../toolkit/currencySlice.js";
 import SelectMenu from "../styles/SelectMenu";
 import { selectUserId } from "../../toolkit/loginSlice";
 import {
@@ -36,6 +41,8 @@ const AddSale = ({ update }) => {
   const bringCustomersData = useSelector(selectCustomersEntities);
   const vegsLoading = useSelector(selectVegsLoading);
   const customersLoading = useSelector(selectCustomersLoading);
+  const bringCurrencyData = useSelector(selectCurrencyEntities);
+  const currencyLoading = useSelector(selectCurrencyLoading);
 
   const [quantity, setQuantity] = useState();
   const [price, setPrice] = useState();
@@ -44,11 +51,15 @@ const AddSale = ({ update }) => {
   const [veg, setVeg] = useState(
     doc(database, `users/${userId}/vegs`, "00000000000000000000")
   );
+  const [currency, setCurrency] = useState(
+    doc(database, `users/${userId}/currency`, "00000000000000000000")
+  );
   const [customer, setCustomer] = useState(
     doc(database, `users/${userId}/customers`, "00000000000000000000")
   );
   const [loading, setLoading] = useState(false);
   const [vegsData, setVegsData] = useState();
+  const [currencyData, setCurrencyData] = useState();
   const [customersData, setCustomersData] = useState();
 
   let { state } = useLocation();
@@ -56,6 +67,7 @@ const AddSale = ({ update }) => {
   useEffect(() => {
     dispatch(getVegs());
     dispatch(getCustomers());
+    dispatch(getCurrency());
   }, []);
 
   useEffect(() => {
@@ -65,11 +77,17 @@ const AddSale = ({ update }) => {
   useEffect(() => {
     setVegsData(bringVegsData);
   }, [bringVegsData]);
+  useEffect(() => {
+    setCurrencyData(bringCurrencyData);
+  }, [bringCurrencyData]);
 
   useEffect(() => {
-    vegsLoading === "loading" ? setLoading(true) : setLoading(false);
-    customersLoading === "loading" ? setLoading(true) : setLoading(false);
-  }, [vegsLoading, customersLoading]);
+    vegsLoading === "loading" ||
+    customersLoading === "loading" ||
+    currencyLoading === "loading"
+      ? setLoading(true)
+      : setLoading(false);
+  }, [vegsLoading, customersLoading, currencyLoading]);
 
   useEffect(() => {
     if (update) {
@@ -87,6 +105,12 @@ const AddSale = ({ update }) => {
         state.customerId
       );
       setCustomer(customerDoc);
+      const currencyDoc = doc(
+        database,
+        `users/${userId}/currency`,
+        state.currencyId
+      );
+      setCurrency(currencyDoc);
     }
   }, []);
   const onQuantityChange = (e) => setQuantity(e.target.value);
@@ -98,26 +122,23 @@ const AddSale = ({ update }) => {
   };
   const onIsPaidChange = () => setIsPaid(!isPaid);
 
+  const submitingObject = () => {
+    let obj = {};
+    obj.veg = veg;
+    obj.quantity = quantity;
+    obj.price = price;
+    obj.date = date;
+    obj.customer = customer;
+    obj.currency = currency;
+    obj.isPaid = isPaid;
+    return { ...obj };
+  };
+
   // Handle submit
   const handleSubmitBtn = () => {
-    if (!update)
-      handleAdding(setLoading, `${userId}/sales`, {
-        veg,
-        quantity,
-        price,
-        date,
-        customer,
-        isPaid,
-      });
+    if (!update) handleAdding(setLoading, `${userId}/sales`, submitingObject);
     if (update)
-      handleUpdating(setLoading, `${userId}/sales`, state.id, {
-        veg,
-        quantity,
-        price,
-        date,
-        customer,
-        isPaid,
-      });
+      handleUpdating(setLoading, `${userId}/sales`, state.id, submitingObject);
   };
   return (
     <Container className="my-5">
@@ -175,6 +196,16 @@ const AddSale = ({ update }) => {
                 listName="إختر زبون"
                 setValue={() => setCustomer}
                 selectedItem={update && state.customerId}
+              />
+            </div>
+            <div>
+              <label htmlFor="currency">العملات: </label>
+              <SelectMenu
+                conectionName="currency"
+                data={currencyData && currencyData}
+                listName="إختر عملة"
+                setValue={() => setCurrency}
+                selectedItem={update && state.currencyId}
               />
             </div>
           </div>

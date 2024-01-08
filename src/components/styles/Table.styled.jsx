@@ -1,24 +1,15 @@
 import { styled } from "styled-components";
 
 const Table = styled.table`
-  width: 100%;
-  background-color: #fff;
   text-align: center;
-  font-weight: bold;
-  display: block;
-  thead {
-    border-radius: 30px 30px 0 0;
-    font-size: 30px;
-  }
+  display: flex;
+  flex-direction: column;
+  overflow-x: auto;
+
   & > * {
-    min-width: 500px;
-    width: 100%;
-    display: block;
+    min-width: 620px;
   }
-  th,
-  td {
-    flex: 1;
-  }
+
   thead tr:first-of-type {
     border-radius: 10px 10px 0px 0px;
   }
@@ -30,9 +21,11 @@ const Table = styled.table`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 10px;
     padding: 10px;
     font-size: 18px;
     font-weight: 500;
+    min-width: 600px;
   }
   tbody tr:nth-child(2n + 1) {
     background-color: #eee;
@@ -41,10 +34,13 @@ const Table = styled.table`
     background-color: var(--main-color);
     color: white;
   }
+  th,
+  td {
+    flex: 1;
+  }
 
   @media (max-width: 767px) {
     & {
-      overflow-x: scroll;
     }
   }
 `;

@@ -3,14 +3,18 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   getUsers,
   openAccess,
+  selectAccess,
   selectUsersEntities,
   selectUsersLoading,
 } from "../toolkit/loginSlice";
 import Loading from "./animation/Loading";
+import { saveUsername } from "../toolkit/generalSlice";
+("../toolkit/generalSlice");
 
 const Login = () => {
   const bringUsersData = useSelector(selectUsersEntities);
   const usersLoading = useSelector(selectUsersLoading);
+  const access = useSelector(selectAccess);
   const dispatch = useDispatch();
 
   const [username, setUsername] = useState("");
@@ -35,17 +39,28 @@ const Login = () => {
 
   const handleAdding = () => {
     usersData.forEach((user) => {
-      if (user.name === username && user.pass === pass)
+      if (user.name === username && user.pass === pass) {
         dispatch(openAccess(user.userId));
+        dispatch(saveUsername(user.name));
+      }
     });
+    if (!access) {
+      document.querySelector("#loginForm #errorMsg").classList.remove("hidden");
+    }
   };
 
   if (loading) return <Loading />;
 
   return (
     <div className="flex justify-center items-center flex-1">
-      <form className="shadow-sm shadow-gray-300 shadow-lg shadow-gray-200 rounded-lg p-5 flex flex-col gap-5">
+      <form
+        id="loginForm"
+        className="shadow-sm shadow-gray-300 shadow-lg shadow-gray-200 rounded-lg p-5 flex flex-col gap-5"
+      >
         <div className="flex flex-col gap-2">
+          <p id="errorMsg" className="text-red-600 hidden">
+            خطأ في إسم المستخدم أو كلمة المرور!!
+          </p>
           <label htmlFor="codeInput" className="font-semibold text-sm">
             أدخل إسم المستخدم:
           </label>

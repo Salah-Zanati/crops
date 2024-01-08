@@ -13,11 +13,6 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { Timestamp, doc } from "firebase/firestore";
 import { database } from "../../firebaseConfig";
-import {
-  getActs,
-  selectActsEntities,
-  selectActsLoading,
-} from "../../toolkit/actsSlice";
 import LoadingLine from "../animation/LoadingLine";
 import SelectMenu from "../styles/SelectMenu";
 import { selectUserId } from "../../toolkit/loginSlice";
@@ -26,6 +21,11 @@ import {
   handleAdding,
   handleUpdating,
 } from "../../utils/functions";
+import {
+  getCurrency,
+  selectCurrencyEntities,
+  selectCurrencyLoading,
+} from "../../toolkit/currencySlice";
 
 // eslint-disable-next-line react/prop-types
 const AddFullact = ({ update }) => {
@@ -35,39 +35,41 @@ const AddFullact = ({ update }) => {
 
   const bringVegData = useSelector(selectVegsEntities);
   const vegsLoading = useSelector(selectVegsLoading);
-  const bringActData = useSelector(selectActsEntities);
-  const actsLoading = useSelector(selectActsLoading);
+
+  const bringCurrencyData = useSelector(selectCurrencyEntities);
+  const currencyLoading = useSelector(selectCurrencyLoading);
 
   // Inputs states
   const [hourPrice, setHourPrice] = useState(0);
   const [veg, setVeg] = useState(
     doc(database, `users/${userId}/vegs`, "00000000000000000000")
   );
-  const [act, setAct] = useState(
-    doc(database, `users/${userId}/acts`, "00000000000000000000")
+  const [act, setAct] = useState("");
+  const [currency, setCurrency] = useState(
+    doc(database, `users/${userId}/currency`, "00000000000000000000")
   );
   const [date, setDate] = useState(Timestamp.fromDate(new Date()));
   // loading setting
   const [loading, setLoading] = useState(false);
   useEffect(() => {
-    vegsLoading === "loading" || actsLoading === "loading"
+    vegsLoading === "loading" || currencyLoading === "loading"
       ? setLoading(true)
       : setLoading(false);
-  }, [vegsLoading, actsLoading]);
+  }, [vegsLoading, currencyLoading]);
 
   // Getting data and setting it to vegsData state
   const [vegsData, setVegsData] = useState([]);
-  const [actsData, setActsData] = useState([]);
+  const [currencyData, setCurrencyData] = useState();
   useEffect(() => {
     dispatch(getVegs());
-    dispatch(getActs());
+    dispatch(getCurrency());
   }, []);
   useEffect(() => {
     setVegsData(bringVegData);
   }, [bringVegData]);
   useEffect(() => {
-    setActsData(bringActData);
-  }, [bringActData]);
+    setCurrencyData(bringCurrencyData);
+  }, [bringCurrencyData]);
 
   // filling the states on update
   useEffect(() => {
@@ -75,8 +77,13 @@ const AddFullact = ({ update }) => {
       setLoading(true);
       const vegDoc = doc(database, `users/${userId}/vegs`, state.vegId);
       setVeg(vegDoc);
-      const actDoc = doc(database, `users/${userId}/acts`, state.actId);
-      setAct(actDoc);
+      const currencyDoc = doc(
+        database,
+        `users/${userId}/currency`,
+        state.currencyId
+      );
+      setCurrency(currencyDoc);
+      setAct(state.act);
       setHourPrice(Number(state.hourPrice));
       const selectedDate = new Date(state.date);
       const timestemp = Timestamp.fromDate(selectedDate);
@@ -87,6 +94,7 @@ const AddFullact = ({ update }) => {
 
   // onChange
   const onHourPriceChange = (e) => setHourPrice(Number(e.target.value));
+  const onActChange = (e) => setAct(e.target.value);
   const onDateChange = (e) => {
     const selectedDate = new Date(e.target.value);
     const timestemp = Timestamp.fromDate(selectedDate);
@@ -94,21 +102,26 @@ const AddFullact = ({ update }) => {
   };
 
   // Handle submit
+  const submitingObject = () => {
+    let obj = {};
+    obj.veg = veg;
+    obj.act = act;
+    obj.date = date;
+    obj.currency = currency;
+    obj.hourPrice = hourPrice;
+    return { ...obj };
+  };
+
   const handleSubmitBtn = () => {
     if (!update)
-      handleAdding(setLoading, `${userId}/fullacts`, {
-        act,
-        veg,
-        hourPrice,
-        date,
-      });
+      handleAdding(setLoading, `${userId}/fullacts`, submitingObject);
     if (update)
-      handleUpdating(setLoading, `${userId}/fullacts`, state.id, {
-        act,
-        veg,
-        hourPrice,
-        date,
-      });
+      handleUpdating(
+        setLoading,
+        `${userId}/fullacts`,
+        state.id,
+        submitingObject
+      );
   };
 
   return (
@@ -132,17 +145,21 @@ const AddFullact = ({ update }) => {
               disabled={loading}
             />
           </div>
+          <div>
+            <label htmlFor="act" className="block">
+              أدخل العملية:
+            </label>
+            <Input
+              id="act"
+              name="act"
+              type="text"
+              placeholder="العملية..."
+              value={update && act}
+              onChange={onActChange}
+              disabled={loading}
+            />
+          </div>
           <div className="flex gap-5 items-center">
-            <div>
-              <label htmlFor="fullactAct">العمليات</label>
-              <SelectMenu
-                conectionName="acts"
-                data={actsData && actsData}
-                listName="إختر عملية"
-                setValue={() => setAct}
-                selectedItem={update && state.actId}
-              />
-            </div>
             <div>
               <label htmlFor="fullactVeg">الأصناف</label>
               <SelectMenu
@@ -151,6 +168,16 @@ const AddFullact = ({ update }) => {
                 listName="إختر صنف"
                 setValue={() => setVeg}
                 selectedItem={update && state.vegId}
+              />
+            </div>
+            <div>
+              <label htmlFor="currency">العملات</label>
+              <SelectMenu
+                conectionName="currency"
+                data={currencyData && currencyData}
+                listName="إختر عملة"
+                setValue={() => setCurrency}
+                selectedItem={update && state.currencyId}
               />
             </div>
           </div>

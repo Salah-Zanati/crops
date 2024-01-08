@@ -67,6 +67,7 @@ function Fullactworkers() {
             <tr>
               <th>العامل</th>
               <th>عدد الساعات</th>
+              <th>الإجمالي</th>
               <th>مسددة ام لا</th>
               <th>عمليات</th>
             </tr>
@@ -96,6 +97,10 @@ function Fullactworkers() {
                     <tr key={fullactworker.id}>
                       <td key="1">{fullactworker.workerName}</td>
                       <td key="2">{fullactworker.hoursNum}</td>
+                      <td key="5">
+                        {fullactworker.hoursNum * state.hourPrice}{" "}
+                        {state.currencyName}
+                      </td>
                       <td key="3">
                         {fullactworker.isPaid ? "مسددة" : "غير مسددة"}
                       </td>
