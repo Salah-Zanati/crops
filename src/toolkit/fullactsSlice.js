@@ -16,6 +16,14 @@ export const getFullacts = createAsyncThunk(
       const data = await Promise.all(
         querySnapshot.docs.map(async (item) => {
           let { act, veg, date, currency, ...rest } = item.data();
+
+          // Fetch the inner collection
+          const innerCollectionRef = collection(item.ref, "fullactWorkers");
+          const innerQuerySnapshot = await getDocs(innerCollectionRef);
+          const innerData = innerQuerySnapshot.docs.map(
+            (doc) => doc.data().hoursNum
+          );
+          // Fetch the act document and veg document using the reference
           if (typeof act !== "string") act = "غير موجود";
 
           const vegDoc = await getDoc(veg);
@@ -46,6 +54,7 @@ export const getFullacts = createAsyncThunk(
             vegId,
             currencyId,
             act,
+            innerData, // Include fetched inner collection data in the result
           };
         })
       );
@@ -66,7 +75,8 @@ const fullactsSlice = createSlice({
         state.loading = "loading";
       })
       .addCase(getFullacts.fulfilled, (state, action) => {
-        (state.loading = "idle"), (state.entities = action.payload);
+        state.loading = "idle";
+        state.entities = action.payload;
       });
   },
 });

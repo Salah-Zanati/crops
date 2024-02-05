@@ -1,7 +1,5 @@
 import { useState } from "react";
 import Input from "../styles/Input.styled";
-import Box from "../styles/Box.styled";
-import Container from "../styles/Container.styled";
 import Button from "../styles/Button.styled";
 import { database } from "../../firebaseConfig.js";
 import "firebase/firestore";
@@ -32,6 +30,7 @@ import {
   handleAdding,
   handleUpdating,
 } from "../../utils/functions";
+import AddingForm from "../styles/AddingForm.styled.jsx";
 
 // eslint-disable-next-line react/prop-types
 const AddSale = ({ update }) => {
@@ -141,20 +140,15 @@ const AddSale = ({ update }) => {
       handleUpdating(setLoading, `${userId}/sales`, state.id, submitingObject);
   };
   return (
-    <Container className="my-5">
-      <Box className="rounded-xl flex-col">
-        <h1 className="font-bold text-xl">
-          {update ? "تعديل بيانات الفاتورة" : "إضافة فاتورة جديد"}
-        </h1>
-        <form className="flex flex-col gap-2">
-          <div className="flex gap-5 items-start flex-col sm:flex-row sm:items-center">
+    <AddingForm>
+      <div>
+        <h1>{update ? "تعديل بيانات الفاتورة" : "إضافة فاتورة جديد"}</h1>
+        <form>
+          <div>
             <div>
-              <label htmlFor="saleQuanity" className="block">
-                أدخل الكمية:{" "}
-              </label>
+              <label htmlFor="quantity">أدخل الكمية:</label>
               <Input
-                id="saleQuantity"
-                name="saleQuantity"
+                id="quantity"
                 type="number"
                 placeholder="الكمية..."
                 value={quantity}
@@ -163,12 +157,9 @@ const AddSale = ({ update }) => {
               />
             </div>
             <div>
-              <label htmlFor="salePrice" className="block">
-                أدخل السعر:{" "}
-              </label>
+              <label htmlFor="price">أدخل السعر:</label>
               <Input
-                id="salePrice"
-                name="salePrice"
+                id="price"
                 type="number"
                 placeholder="السعر..."
                 value={price}
@@ -177,9 +168,9 @@ const AddSale = ({ update }) => {
               />
             </div>
           </div>
-          <div className="flex gap-5 items-center">
+          <div className="justify-between">
             <div>
-              <label htmlFor="saleVeg">الأصناف: </label>
+              <label>الأصناف:</label>
               <SelectMenu
                 conectionName="vegs"
                 data={vegsData && vegsData}
@@ -189,7 +180,7 @@ const AddSale = ({ update }) => {
               />
             </div>
             <div>
-              <label htmlFor="saleCustomer">الزبائن: </label>
+              <label>الزبائن:</label>
               <SelectMenu
                 conectionName="customers"
                 data={customersData && customersData}
@@ -199,7 +190,7 @@ const AddSale = ({ update }) => {
               />
             </div>
             <div>
-              <label htmlFor="currency">العملات: </label>
+              <label>العملات:</label>
               <SelectMenu
                 conectionName="currency"
                 data={currencyData && currencyData}
@@ -209,12 +200,11 @@ const AddSale = ({ update }) => {
               />
             </div>
           </div>
-          <div className="flex gap-5 items-center">
+          <div className="d-p">
             <div>
-              <label htmlFor="saleDate">أدخل التاريخ: </label>
-              <Input
-                id="saleDate"
-                name="saleDate"
+              <label htmlFor="date"> التاريخ: </label>
+              <input
+                id="date"
                 type="date"
                 value={
                   date ? convertDate(date.toMillis()) : convertDate(new Date())
@@ -223,22 +213,20 @@ const AddSale = ({ update }) => {
                 disabled={loading}
               />
             </div>
-            <label htmlFor="saleIsPaid" className="flex items-center gap-3">
-              مسددة أم لا :
-              <Input
-                id="saleIsPaid"
-                name="saleIsPaid"
+            <div>
+              <label htmlFor="paid">مسددة:</label>
+              <input
+                id="paid"
                 type="checkbox"
                 placeholder="مسددة أم لا..."
                 checked={isPaid}
                 onChange={onIsPaidChange}
                 disabled={loading}
               />
-            </label>
+            </div>
           </div>
 
           <Button.large
-            id="addSaleSubmitBtn"
             type="button"
             onClick={() => {
               handleSubmitBtn();
@@ -249,8 +237,8 @@ const AddSale = ({ update }) => {
             {!loading && update && "تعديل"}
           </Button.large>
         </form>
-      </Box>
-    </Container>
+      </div>
+    </AddingForm>
   );
 };
 

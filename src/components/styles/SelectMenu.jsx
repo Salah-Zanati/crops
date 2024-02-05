@@ -32,7 +32,7 @@ const SelectMenu = ({
   }, [data]);
 
   return (
-    <div className="relative font-bold">
+    <div className="relative font-bold w-full">
       <div
         className="p-3 bg-main flex gap-2 items-center relative text-white cursor-pointer rounded-lg"
         onClick={(e) => {
@@ -60,7 +60,7 @@ const SelectMenu = ({
       </div>
       <ul
         id={ulId}
-        className="flex z-10 flex-col  absolute max-h-40 overflow-y-auto hidden mt-1 rounded-lg border-2 border-solid border-main bg-white text-gray-400"
+        className="w-full flex z-10 flex-col absolute max-h-40 overflow-y-auto hidden mt-1 rounded-lg border-2 border-solid border-main bg-white text-gray-400"
       >
         {
           // eslint-disable-next-line react/prop-types

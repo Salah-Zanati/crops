@@ -1,7 +1,5 @@
 import { useState } from "react";
 import Input from "../styles/Input.styled";
-import Box from "../styles/Box.styled";
-import Container from "../styles/Container.styled";
 import Button from "../styles/Button.styled";
 import { database } from "../../firebaseConfig.js";
 import "firebase/firestore";
@@ -32,6 +30,7 @@ import {
   selectCurrencyEntities,
   selectCurrencyLoading,
 } from "../../toolkit/currencySlice.js";
+import AddingForm from "../styles/AddingForm.styled.jsx";
 
 // eslint-disable-next-line react/prop-types
 const AddPurchase = ({ update }) => {
@@ -156,20 +155,15 @@ const AddPurchase = ({ update }) => {
   };
 
   return (
-    <Container className="my-5">
-      <Box className="rounded-xl flex-col">
-        <h1 className="font-bold text-xl">
-          {update ? "تعديل بيانات الفاتورة" : "إضافة فاتورة جديد"}
-        </h1>
-        <form className="flex flex-col gap-2">
-          <div className="flex gap-5 items-center flex-wrap">
+    <AddingForm>
+      <div>
+        <h1>{update ? "تعديل بيانات الفاتورة" : "إضافة فاتورة جديد"}</h1>
+        <form>
+          <div>
             <div>
-              <label htmlFor="purchaseQuanity" className="block">
-                أدخل الكمية:{" "}
-              </label>
+              <label htmlFor="quantity">أدخل الكمية:</label>
               <Input
-                id="purchaseQuantity"
-                name="purchaseQuantity"
+                id="quantity"
                 type="number"
                 placeholder="الكمية..."
                 value={update && quantity}
@@ -178,12 +172,9 @@ const AddPurchase = ({ update }) => {
               />
             </div>
             <div>
-              <label htmlFor="purchasePrice" className="block">
-                أدخل السعر:{" "}
-              </label>
+              <label htmlFor="price">أدخل السعر:</label>
               <Input
-                id="purchasePrice"
-                name="purchasePrice"
+                id="price"
                 type="number"
                 placeholder="السعر..."
                 value={update && price}
@@ -191,15 +182,13 @@ const AddPurchase = ({ update }) => {
                 disabled={loading}
               />
             </div>
-            <div>
-              <label htmlFor="purchaseMaterial" className="block">
-                المواد:{" "}
-              </label>
+          </div>
+          <div>
+            <div className="w-full">
+              <label htmlFor="material">المواد:</label>
               <Input
-                id="purchaseMaterial"
-                name="purchaseMaterial"
-                type="text
-              "
+                id="material"
+                type="text"
                 placeholder="المادة..."
                 value={update && material}
                 onChange={onMaterialChange}
@@ -207,7 +196,7 @@ const AddPurchase = ({ update }) => {
               />
             </div>
           </div>
-          <div className="flex gap-5 flex-wrap items-center">
+          <div className="justify-between">
             <div>
               <label htmlFor="purchaseSeller">البائعين: </label>
               <SelectMenu
@@ -239,12 +228,11 @@ const AddPurchase = ({ update }) => {
               />
             </div>
           </div>
-          <div className="flex gap-5 items-center flex-wrap">
+          <div className="d-p">
             <div>
-              <label htmlFor="purchaseDate">أدخل التاريخ: </label>
-              <Input
-                id="purchaseDate"
-                name="purchaseDate"
+              <label htmlFor="date">التاريخ: </label>
+              <input
+                id="date"
                 type="date"
                 value={
                   date ? convertDate(date.toMillis()) : convertDate(new Date())
@@ -253,21 +241,19 @@ const AddPurchase = ({ update }) => {
                 disabled={loading}
               />
             </div>
-            <label htmlFor="purchaseIsPaid" className="flex items-center gap-3">
-              مسددة أم لا :
-              <Input
-                id="purchaseIsPaid"
-                name="purchaseIsPaid"
+            <div>
+              <label htmlFor="paid">مسددة:</label>
+              <input
+                id="paid"
                 type="checkbox"
                 checked={isPaid}
                 onChange={onIsPaidChange}
                 disabled={loading}
               />
-            </label>
+            </div>
           </div>
 
           <Button.large
-            id="addPurchaseSubmitBtn"
             type="button"
             onClick={() => {
               handleSubmitBtn();
@@ -278,8 +264,8 @@ const AddPurchase = ({ update }) => {
             {!loading && update && "تعديل"}
           </Button.large>
         </form>
-      </Box>
-    </Container>
+      </div>
+    </AddingForm>
   );
 };
 

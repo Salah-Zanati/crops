@@ -5,6 +5,8 @@ const Table = styled.table`
   display: flex;
   flex-direction: column;
   overflow-x: auto;
+  box-shadow: 0 0 10px #ddd;
+  border-radius: 10px;
 
   & > * {
     min-width: 620px;
@@ -28,7 +30,7 @@ const Table = styled.table`
     min-width: 600px;
   }
   tbody tr:nth-child(2n + 1) {
-    background-color: #eee;
+    background-color: #fff;
   }
   thead tr {
     background-color: var(--main-color);

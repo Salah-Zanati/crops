@@ -50,24 +50,21 @@ const Fullact = () => {
     setGroupsActsData(bringGroupsActsData);
   }, [bringGroupsActsData]);
 
-  useEffect(() => {
-    let fullactToggleElement = document.getElementById("fullactToggle");
-    fullactToggleValue == true
-      ? fullactToggleElement.classList.add("groups")
-      : fullactToggleElement.classList.remove("groups");
-  }, [fullactToggleValue]);
-
   if (
     loading ||
     fullactsLoading === "loading" ||
     groupsActsLoading === "loading"
   )
-    return <Loading />;
+    return (
+      <div className="h-full flex items-center justify-center">
+        <Loading />
+      </div>
+    );
 
   return (
     <Container className="my-5">
-      <Box className="flex-col gap-5">
-        <div className="flex justify-between items-center flex-col gap-5 mt-2 md:flex-row">
+      <Box>
+        <div className="flex justify-between items-center flex-col gap-2 mb-2 md:flex-row">
           <Button.large>
             <Link
               to={
@@ -79,20 +76,18 @@ const Fullact = () => {
               إضافة علمية كاملة
             </Link>
           </Button.large>
-          <div className="flex justify-start items-center gap-3">
-            <p className="hidden md:block">مربع البحث: </p>
-            <Input
-              type="text"
-              placeholder="بحث..."
-              onChange={(e) => {
-                setSearchTerm(e.target.value);
-              }}
-            />
-          </div>
+          <Input
+            type="text"
+            placeholder="بحث..."
+            className="!w-fit"
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+            }}
+          />
           <div className="flex items-center gap-3">
             <p>عمال</p>
             <Toggle
-              className="groups"
+              className={`${fullactToggleValue ? "groups" : ""}`}
               id="fullactToggle"
               onClick={() => {
                 dispatch(fullactToggle(!fullactToggleValue));
@@ -101,7 +96,7 @@ const Fullact = () => {
             <p>ورشات</p>
           </div>
         </div>
-        <Table className="p-3 rounded-2xl bg-white">
+        <Table>
           {fullactToggleValue && (
             <>
               <thead>

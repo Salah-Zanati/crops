@@ -3,12 +3,11 @@ const LoadingLine = () => {
     .lds-ellipsis {
   display: inline-block;
   position: relative;
-  width: 24px;
-  height: 24px;
+  width: 72px;
 }
 .lds-ellipsis div {
   position: absolute;
-  top: 8px;
+  top: -4px;
   width: 8px;
   height: 8px;
   border-radius: 50%;
@@ -58,7 +57,7 @@ const LoadingLine = () => {
 
     `;
   return (
-    <div className="flex-1 flex place-items-center place-content-center">
+    <div className="flex-1 flex justify-center items-center">
       <style>{style}</style>
       <div className="lds-ellipsis">
         <div></div>

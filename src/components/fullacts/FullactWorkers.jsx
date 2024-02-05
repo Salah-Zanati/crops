@@ -40,8 +40,8 @@ function Fullactworkers() {
 
   return (
     <Container className="my-5">
-      <Box className="flex-col gap-5">
-        <div className="flex justify-between gap-5 mt-2">
+      <Box>
+        <div className="flex flex-col justify-between items-center gap-2 mb-2 sm:flex-row">
           <Button.large>
             <Link
               to="/fullactWorkers/addFullactWorkers"
@@ -50,19 +50,16 @@ function Fullactworkers() {
               إضافة عمال
             </Link>
           </Button.large>
-
-          <div className="flex justify-start items-center gap-3">
-            <p>مربع البحث: </p>
-            <Input
-              type="text"
-              placeholder="بحث..."
-              onChange={(e) => {
-                setSearchTerm(e.target.value);
-              }}
-            />
-          </div>
+          <Input
+            type="text"
+            placeholder="بحث..."
+            className="!w-fit"
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+            }}
+          />
         </div>
-        <Table className="p-3 rounded-2xl bg-white">
+        <Table>
           <thead>
             <tr>
               <th>العامل</th>

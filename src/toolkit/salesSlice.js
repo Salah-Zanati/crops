@@ -17,6 +17,7 @@ export const getSales = createAsyncThunk(
       const data = await Promise.all(
         querySnapshot.docs.map(async (item) => {
           const { customer, veg, currency, date, ...rest } = item.data();
+          // Fetch the customer document using the reference
           const customerDoc = await getDoc(customer);
           var customerName = "غير موجود",
             customerId = "00000000000000000000";

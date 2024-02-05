@@ -1,5 +1,3 @@
-import Container from "../styles/Container.styled";
-import Box from "../styles/Box.styled";
 import Input from "../styles/Input.styled";
 import Button from "../styles/Button.styled";
 import { useLocation } from "react-router-dom";
@@ -31,6 +29,7 @@ import {
   selectCurrencyEntities,
   selectCurrencyLoading,
 } from "../../toolkit/currencySlice";
+import AddingForm from "../styles/AddingForm.styled";
 
 // eslint-disable-next-line react/prop-types
 const AddGroupsAct = ({ update }) => {
@@ -157,22 +156,16 @@ const AddGroupsAct = ({ update }) => {
   };
 
   return (
-    <Container className="my-5">
-      <Box className="rounded-xl flex-col">
-        <h1 className="font-bold text-xl">
-          {update ? "تعديل بيانات المصاريف" : "إضافة مصاريف جديدة"}
-        </h1>
-        <form className="flex flex-col gap-2">
-          <div className="flex gap-5 items-center flex-wrap">
+    <AddingForm>
+      <div>
+        <h1>{update ? "تعديل بيانات المصاريف" : "إضافة مصاريف جديدة"}</h1>
+        <form>
+          <div>
             <div>
-              <label htmlFor="hourPrice" className="block">
-                أدخل سعر الساعة:{" "}
-              </label>
+              <label htmlFor="hourPrice">أدخل سعر الساعة: </label>
               <Input
                 id="hourPrice"
-                name="hourPrice"
                 type="number"
-                className="w-36"
                 placeholder="سعر الساعة..."
                 value={update && hourPrice}
                 onChange={onHourPriceChange}
@@ -180,29 +173,23 @@ const AddGroupsAct = ({ update }) => {
               />
             </div>
             <div>
-              <label htmlFor="workersNum" className="block">
-                أدخل عدد العمال:{" "}
-              </label>
+              <label htmlFor="workersNum">أدخل عدد العمال: </label>
               <Input
                 id="workersNum"
-                name="workersNum"
                 type="number"
-                className="w-36"
                 placeholder="عدد العمال..."
                 value={update && workersNum}
                 onChange={onWorkersNumChange}
                 disabled={loading}
               />
             </div>
+          </div>
+          <div>
             <div>
-              <label htmlFor="hoursNum" className="block">
-                أدخل عدد الساعات:{" "}
-              </label>
+              <label htmlFor="hoursNum">أدخل عدد الساعات: </label>
               <Input
                 id="hoursNum"
-                name="hoursNum"
                 type="number"
-                className="w-36"
                 placeholder="عدد الساعات..."
                 value={update && hoursNum}
                 onChange={onHoursNumChagne}
@@ -210,24 +197,20 @@ const AddGroupsAct = ({ update }) => {
               />
             </div>
             <div>
-              <label htmlFor="act" className="block">
-                أدخل العملية:{" "}
-              </label>
+              <label htmlFor="act">أدخل العملية: </label>
               <Input
                 id="act"
-                name="act"
                 type="text"
-                className="w-36"
-                placeholder="أدخل العملية..."
+                placeholder=" العملية..."
                 value={update && act}
                 onChange={onActChange}
                 disabled={loading}
               />
             </div>
           </div>
-          <div className="flex gap-5 items-center flex-wrap">
+          <div className="justify-between">
             <div>
-              <label htmlFor="groupsActVeg">الأصناف</label>
+              <label>الأصناف</label>
               <SelectMenu
                 conectionName="vegs"
                 data={vegsData && vegsData}
@@ -237,7 +220,7 @@ const AddGroupsAct = ({ update }) => {
               />
             </div>
             <div>
-              <label htmlFor="groupsActVeg">الورش</label>
+              <label>الورش</label>
               <SelectMenu
                 conectionName="groups"
                 data={groupsData && groupsData}
@@ -247,7 +230,7 @@ const AddGroupsAct = ({ update }) => {
               />
             </div>
             <div>
-              <label htmlFor="currency">العملات</label>
+              <label>العملات</label>
               <SelectMenu
                 conectionName="currency"
                 data={currencyData && currencyData}
@@ -257,12 +240,11 @@ const AddGroupsAct = ({ update }) => {
               />
             </div>
           </div>
-          <div className="flex gap-5 items-center flex-wrap">
+          <div className="d-p">
             <div>
-              <label htmlFor="groupsActDate">أدخل التاريخ: </label>
+              <label htmlFor="date"> التاريخ: </label>
               <Input
-                id="groupsActDate"
-                name="groupsActDate"
+                id="date"
                 type="date"
                 value={
                   date ? convertDate(date.toMillis()) : convertDate(new Date())
@@ -272,10 +254,9 @@ const AddGroupsAct = ({ update }) => {
               />
             </div>
             <div>
-              <label htmlFor="isPaid">مسددة ام لا:</label>
+              <label htmlFor="isPaid">مسددة:</label>
               <Input
                 id="isPaid"
-                name="isPaid"
                 type="checkbox"
                 checked={isPaid}
                 onChange={onIsPaidChange}
@@ -295,8 +276,8 @@ const AddGroupsAct = ({ update }) => {
             {!loading && update && "تعديل"}
           </Button.large>
         </form>
-      </Box>
-    </Container>
+      </div>
+    </AddingForm>
   );
 };
 

@@ -20,6 +20,8 @@ import { useSelector } from "react-redux";
 import { selectAccess } from "./toolkit/loginSlice";
 import Navbar from "./components/Navbar";
 import Add_Update from "./components/management/Add_Update";
+import { Budget } from "./components/budget/Budget";
+import Setting from "./components/Setting";
 
 const theme = {
   colors: {
@@ -41,101 +43,113 @@ function App() {
           {access && (
             <div className="flex flex-col-reverse justify-end flex-1 md:flex-row">
               <Sidebar />
-              <Routes>
-                {/* Management section */}
-                <Route path="/" element={<Home />} />
-                {(() => {
-                  let addingMangRoutes = [
-                    "addWorker",
-                    "addSeller",
-                    "addCustomer",
-                    "addAct",
-                    "addVeg",
-                    "addMaterial",
-                    "addGroup",
-                    "addCurrency",
-                  ];
-                  let updatingMangRoutes = [
-                    "updataWorker",
-                    "updataSeller",
-                    "updataCustomer",
-                    "updataAct",
-                    "updataVeg",
-                    "updataMaterial",
-                    "updataGroup",
-                    "updataCurrency",
-                  ];
-                  const routes = [];
-                  for (let i = 0; i < addingMangRoutes.length; i++) {
-                    routes.push(
-                      <Route
-                        key={i}
-                        path={"/home/" + addingMangRoutes[i]}
-                        element={<Add_Update />}
-                      />
-                    );
-                    routes.push(
-                      <Route
-                        key={i + 100}
-                        path={"/home/" + updatingMangRoutes[i]}
-                        element={<Add_Update update={true} />}
-                      />
-                    );
-                  }
-                  return routes;
-                })()}
+              <div className="flex-1">
+                <Routes>
+                  {/* Management section */}
+                  <Route path="/" element={<Home />} />
+                  {(() => {
+                    let addingMangRoutes = [
+                      "addWorker",
+                      "addSeller",
+                      "addCustomer",
+                      "addAct",
+                      "addVeg",
+                      "addMaterial",
+                      "addGroup",
+                      "addCurrency",
+                    ];
+                    let updatingMangRoutes = [
+                      "updataWorker",
+                      "updataSeller",
+                      "updataCustomer",
+                      "updataAct",
+                      "updataVeg",
+                      "updataMaterial",
+                      "updataGroup",
+                      "updataCurrency",
+                    ];
+                    const routes = [];
+                    for (let i = 0; i < addingMangRoutes.length; i++) {
+                      routes.push(
+                        <Route
+                          key={i}
+                          path={"/home/" + addingMangRoutes[i]}
+                          element={<Add_Update />}
+                        />
+                      );
+                      routes.push(
+                        <Route
+                          key={i + 100}
+                          path={"/home/" + updatingMangRoutes[i]}
+                          element={<Add_Update update={true} />}
+                        />
+                      );
+                    }
+                    return routes;
+                  })()}
 
-                {/* Sales section */}
-                <Route path="/sales" element={<Sales />} />
+                  {/* Sales section */}
+                  <Route path="/sales" element={<Sales />} />
 
-                <Route path="/sales/addSale" element={<AddSale />} />
-                <Route
-                  path="/sales/updataSale"
-                  element={<AddSale update={true} />}
-                />
-                {/* Purchases section */}
-                <Route path="/purchases" element={<Purchases />} />
-                <Route
-                  path="/purchases/addPurchase"
-                  element={<AddPurchase />}
-                />
-                <Route
-                  path="/purchases/updataPurchase"
-                  element={<AddPurchase update={true} />}
-                />
-                <Route path="/expenses" element={<Expenses />} />
-                <Route path="expenses/addExpenses" element={<AddExpenses />} />
-                <Route
-                  path="/expenses/updateExpenses"
-                  element={<AddExpenses update={true} />}
-                />
+                  <Route path="/sales/addSale" element={<AddSale />} />
+                  <Route
+                    path="/sales/updataSale"
+                    element={<AddSale update={true} />}
+                  />
+                  {/* Purchases section */}
+                  <Route path="/purchases" element={<Purchases />} />
+                  <Route
+                    path="/purchases/addPurchase"
+                    element={<AddPurchase />}
+                  />
+                  <Route
+                    path="/purchases/updataPurchase"
+                    element={<AddPurchase update={true} />}
+                  />
+                  <Route path="/expenses" element={<Expenses />} />
+                  <Route
+                    path="expenses/addExpenses"
+                    element={<AddExpenses />}
+                  />
+                  <Route
+                    path="/expenses/updateExpenses"
+                    element={<AddExpenses update={true} />}
+                  />
 
-                {/* Fullact section */}
-                <Route path="/fullacts" element={<Fullacts />} />
-                <Route path="/fullacts/addFullact" element={<AddFullact />} />
-                <Route
-                  path="/fullacts/updateFullact"
-                  element={<AddFullact update={true} />}
-                />
-                <Route
-                  path="/fullacts/addGroupsAct"
-                  element={<AddGroupsAct />}
-                />
-                <Route
-                  path="/fullacts/updateGroupsAct"
-                  element={<AddGroupsAct update={true} />}
-                />
-                <Route path="/fullactWorkers" element={<FullactWorkers />} />
-                <Route
-                  path="/fullactWorkers/addFullactWorkers"
-                  element={<AddFullactWorkers />}
-                />
-                <Route
-                  path="/fullactWorkers/updateFullactWorkers"
-                  element={<AddFullactWorkers update={true} />}
-                />
-                <Route path="/about" element={<Footer />} />
-              </Routes>
+                  {/* Fullact section */}
+                  <Route path="/fullacts" element={<Fullacts />} />
+                  <Route path="/fullacts/addFullact" element={<AddFullact />} />
+                  <Route
+                    path="/fullacts/updateFullact"
+                    element={<AddFullact update={true} />}
+                  />
+                  <Route
+                    path="/fullacts/addGroupsAct"
+                    element={<AddGroupsAct />}
+                  />
+                  <Route
+                    path="/fullacts/updateGroupsAct"
+                    element={<AddGroupsAct update={true} />}
+                  />
+                  <Route path="/fullactWorkers" element={<FullactWorkers />} />
+                  <Route
+                    path="/fullactWorkers/addFullactWorkers"
+                    element={<AddFullactWorkers />}
+                  />
+                  <Route
+                    path="/fullactWorkers/updateFullactWorkers"
+                    element={<AddFullactWorkers update={true} />}
+                  />
+                  <Route path="/about" element={<Footer />} />
+                  <Route path="/budget" element={<Budget />} />
+                  <Route path="/setting" element={<Setting />} />
+                </Routes>
+                {/* <p className="relative -left-1/2">
+                  Developed by{" "}
+                  <a href="http://salahzanati.web.app/">salahZanati</a> &copy;{" "}
+                  {new Date().getFullYear()}
+                </p> */}
+              </div>
             </div>
           )}
         </div>

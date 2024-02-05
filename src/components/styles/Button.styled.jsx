@@ -27,6 +27,9 @@ const Button = () => {
     &:hover {
       ${{ ...hover }}
     }
+    & > div {
+      height: 21px;
+    }
   `;
   const large = styled.button`
     padding: 10px 15px;
@@ -35,6 +38,9 @@ const Button = () => {
     ${{ ...style }}
     &:hover {
       ${{ ...hover }}
+    }
+    & > div {
+      height: 24px;
     }
   `;
   return {

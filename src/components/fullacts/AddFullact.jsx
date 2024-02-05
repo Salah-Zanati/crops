@@ -1,5 +1,3 @@
-import Container from "../styles/Container.styled";
-import Box from "../styles/Box.styled";
 import Input from "../styles/Input.styled";
 import Button from "../styles/Button.styled";
 import { useLocation } from "react-router-dom";
@@ -26,6 +24,7 @@ import {
   selectCurrencyEntities,
   selectCurrencyLoading,
 } from "../../toolkit/currencySlice";
+import AddingForm from "../styles/AddingForm.styled";
 
 // eslint-disable-next-line react/prop-types
 const AddFullact = ({ update }) => {
@@ -125,43 +124,37 @@ const AddFullact = ({ update }) => {
   };
 
   return (
-    <Container className="my-5">
-      <Box className="rounded-xl flex-col">
-        <h1 className="font-bold text-xl">
-          {update ? "تعديل بيانات المصاريف" : "إضافة مصاريف جديدة"}
-        </h1>
-        <form className="flex flex-col gap-2">
+    <AddingForm>
+      <div>
+        <h1>{update ? "تعديل بيانات المصاريف" : "إضافة مصاريف جديدة"}</h1>
+        <form>
           <div>
-            <label htmlFor="expensesAmount" className="block">
-              أدخل سعر الساعة:
-            </label>
-            <Input
-              id="expensesAmount"
-              name="expensesAmount"
-              type="number"
-              placeholder="سعر الساعة..."
-              value={update && hourPrice}
-              onChange={onHourPriceChange}
-              disabled={loading}
-            />
-          </div>
-          <div>
-            <label htmlFor="act" className="block">
-              أدخل العملية:
-            </label>
-            <Input
-              id="act"
-              name="act"
-              type="text"
-              placeholder="العملية..."
-              value={update && act}
-              onChange={onActChange}
-              disabled={loading}
-            />
-          </div>
-          <div className="flex gap-5 items-center">
             <div>
-              <label htmlFor="fullactVeg">الأصناف</label>
+              <label htmlFor="amount">أدخل سعر الساعة:</label>
+              <Input
+                id="amount"
+                type="number"
+                placeholder="سعر الساعة..."
+                value={update && hourPrice}
+                onChange={onHourPriceChange}
+                disabled={loading}
+              />
+            </div>
+            <div>
+              <label htmlFor="act">أدخل العملية:</label>
+              <Input
+                id="act"
+                type="text"
+                placeholder="العملية..."
+                value={update && act}
+                onChange={onActChange}
+                disabled={loading}
+              />
+            </div>
+          </div>
+          <div className="justify-between">
+            <div>
+              <label>الأصناف:</label>
               <SelectMenu
                 conectionName="vegs"
                 data={vegsData && vegsData}
@@ -171,7 +164,7 @@ const AddFullact = ({ update }) => {
               />
             </div>
             <div>
-              <label htmlFor="currency">العملات</label>
+              <label>العملات:</label>
               <SelectMenu
                 conectionName="currency"
                 data={currencyData && currencyData}
@@ -181,21 +174,21 @@ const AddFullact = ({ update }) => {
               />
             </div>
           </div>
-          <div className="flex gap-5 items-center">
-            <label htmlFor="fullactDate">أدخل التاريخ: </label>
-            <Input
-              id="fullactDate"
-              name="fullactDate"
-              type="date"
-              value={
-                date ? convertDate(date.toMillis()) : convertDate(new Date())
-              }
-              onChange={onDateChange}
-              disabled={loading}
-            />
+          <div className="d-p">
+            <div>
+              <label htmlFor="date"> التاريخ: </label>
+              <Input
+                id="date"
+                type="date"
+                value={
+                  date ? convertDate(date.toMillis()) : convertDate(new Date())
+                }
+                onChange={onDateChange}
+                disabled={loading}
+              />
+            </div>
           </div>
           <Button.large
-            id="addFullactSubmitBtn"
             type="button"
             onClick={() => {
               handleSubmitBtn();
@@ -206,8 +199,8 @@ const AddFullact = ({ update }) => {
             {!loading && update && "تعديل"}
           </Button.large>
         </form>
-      </Box>
-    </Container>
+      </div>
+    </AddingForm>
   );
 };
 

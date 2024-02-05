@@ -33,7 +33,7 @@ const Sellers = ({ searchTerm = "" }) => {
   if (loading) return <Loading />;
 
   return (
-    <Table className="p-3 rounded-2xl bg-white">
+    <Table>
       <thead>
         <tr>
           <th>الإسم</th>

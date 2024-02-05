@@ -13,9 +13,6 @@ const Footer = () => {
         </li>
       </ul>
       <hr className="w-1/4 border-black my-2" />
-      <p className="p-2">
-        Developed by Salah Zanati &copy; {new Date().getFullYear()}
-      </p>
     </div>
   );
 };

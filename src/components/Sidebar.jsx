@@ -4,10 +4,11 @@ import { UilEstate } from "@iconscout/react-unicons";
 import { UilMoneyInsert } from "@iconscout/react-unicons";
 import { UilMoneyWithdraw } from "@iconscout/react-unicons";
 import { UilCalculator } from "@iconscout/react-unicons";
+import { UilAnalysis } from "@iconscout/react-unicons";
 
 const Sidebar = () => {
   const sections = [
-    { id: 5, to: "/", value: "mang", text: "إدارة", icon: UilEstate },
+    { id: 0, to: "/", value: "mang", text: "إدارة", icon: UilEstate },
     {
       id: 1,
       to: "/sales",
@@ -28,6 +29,13 @@ const Sidebar = () => {
       value: "fullacts",
       text: "الأعمال",
       icon: UilCalculator,
+    },
+    {
+      id: 4,
+      to: "/budget",
+      value: "budget",
+      text: "الميزانية",
+      icon: UilAnalysis,
     },
   ];
   useEffect(() => {

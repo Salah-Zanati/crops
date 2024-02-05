@@ -17,6 +17,7 @@ import LoadingLine from "../animation/LoadingLine";
 import SelectMenu from "../styles/SelectMenu";
 import { selectUserId } from "../../toolkit/loginSlice";
 import { handleAdding, handleUpdating } from "../../utils/functions";
+import AddingForm from "../styles/AddingForm.styled";
 
 // eslint-disable-next-line react/prop-types
 const AddFullactWorkers = ({ update }) => {
@@ -95,49 +96,46 @@ const AddFullactWorkers = ({ update }) => {
   };
 
   return (
-    <Container className="my-5">
-      <Box className="rounded-xl flex-col">
-        <h1 className="font-bold text-xl">
-          {update ? "تعديل بيانات العامل" : "إضافة عامل"}
-        </h1>
-        <form className="flex flex-col gap-2">
-          <div className="">
-            <label htmlFor="fullactWorkersHoursNum">أدخل عدد الساعات: </label>
-            <Input
-              id="fullactWorkersHoursNum"
-              name="fullactWorkersHoursNum"
-              type="number"
-              placeholder="عدد الساعات..."
-              value={update && hoursNum}
-              onChange={onHoursNumChange}
-              disabled={loading}
-            />
-          </div>
-          <div className="flex gap-5 items-center">
-            <label htmlFor="fullactWorkersWorker">إختر العامل: </label>
-            <SelectMenu
-              conectionName="workers"
-              data={workersData && workersData}
-              listName="إختر عامل"
-              setValue={() => setWorker}
-              selectedItem={update && state.workerId}
-            />
-          </div>
-          <div className="flex gap-5 items-center">
-            <label htmlFor="fullactWorkersIsPaid">
-              مسددة ام لا:{" "}
+    <AddingForm>
+      <div>
+        <h1>{update ? "تعديل بيانات العامل" : "إضافة عامل"}</h1>
+        <form>
+          <div>
+            <div>
+              <label htmlFor="hoursNum">أدخل عدد الساعات: </label>
               <Input
-                id="fullactWorkersIsPaid"
-                name="fullactWorkersIsPaid"
+                id="hoursNum"
+                type="number"
+                placeholder="عدد الساعات..."
+                value={update && hoursNum}
+                onChange={onHoursNumChange}
+                disabled={loading}
+              />
+            </div>
+            <div>
+              <label>إختر العامل:</label>
+              <SelectMenu
+                conectionName="workers"
+                data={workersData && workersData}
+                listName="إختر عامل"
+                setValue={() => setWorker}
+                selectedItem={update && state.workerId}
+              />
+            </div>
+          </div>
+          <div className="d-p">
+            <div className="!basis-0">
+              <label htmlFor="paid">مسددة:</label>
+              <Input
+                id="paid"
                 type="checkbox"
                 checked={isPaid}
                 onChange={onIsPaidChange}
                 disabled={loading}
               />
-            </label>
+            </div>
           </div>
           <Button.large
-            id="addFullactWorkersSubmitBtn"
             type="button"
             onClick={() => {
               handleSubmitBtn();
@@ -148,8 +146,8 @@ const AddFullactWorkers = ({ update }) => {
             {!loading && update && "تعديل"}
           </Button.large>
         </form>
-      </Box>
-    </Container>
+      </div>
+    </AddingForm>
   );
 };
 

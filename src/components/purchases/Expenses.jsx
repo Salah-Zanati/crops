@@ -60,7 +60,7 @@ function Expenses() {
             />
           </div>
         </div>
-        <Table className="p-3 rounded-2xl bg-white">
+        <Table>
           <thead>
             <tr>
               <th>التاريخ</th>

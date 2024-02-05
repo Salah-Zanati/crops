@@ -38,23 +38,21 @@ const Purchases = () => {
 
   return (
     <Container className="p-5 mb-10">
-      <Box className="flex-col gap-5">
-        <div className="flex justify-between items-center flex-col gap-5 mt-2 sm:flex-row">
+      <Box>
+        <div className="flex justify-between items-center flex-col gap-2 mb-2 sm:flex-row">
           <Button.large>
             <Link to="/purchases/addPurchase">إضافة فاتورة جديدة</Link>
           </Button.large>
-          <div className="flex justify-start items-center gap-3">
-            <p className="hidden md:block">مربع البحث: </p>
-            <Input
-              type="text"
-              placeholder="بحث..."
-              onChange={(e) => {
-                setSearchTerm(e.target.value);
-              }}
-            />
-          </div>
+          <Input
+            type="text"
+            placeholder="بحث..."
+            className="!w-fit"
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+            }}
+          />
         </div>
-        <Table className="p-3 rounded-2xl bg-white">
+        <Table>
           <thead>
             <tr>
               <th>الشراء</th>

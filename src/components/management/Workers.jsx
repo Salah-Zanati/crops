@@ -35,7 +35,7 @@ const Workers = ({ searchTerm = "" }) => {
 
   return (
     <>
-      <Table className="p-3 rounded-2xl bg-white">
+      <Table className={workersData}>
         <thead>
           <tr>
             <th>الإسم</th>

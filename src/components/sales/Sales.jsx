@@ -37,23 +37,20 @@ const Sales = () => {
 
   return (
     <Container className="p-5 mb-10">
-      <Box className="flex-col gap-5">
-        <div className="flex justify-between flex-col items-center gap-5 mt-2 sm:flex-row">
+      <Box>
+        <div className="flex justify-between flex-col items-center gap-2 mb-2 sm:flex-row">
           <Button.large onClick={() => {}}>
             <Link to="/sales/addSale">إضافة فاتورة جديدة</Link>
           </Button.large>
-          <div className="flex justify-start items-center gap-3">
-            <p className="hidden md:block">مربع البحث: </p>
-            <Input
-              placeholder="بحث..."
-              onChange={(e) => {
-                setSearchTerm(e.target.value);
-              }}
-            />
-          </div>
+          <Input
+            placeholder="بحث..."
+            className="!w-fit"
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+            }}
+          />
         </div>
-
-        <Table className="p-3 rounded-2xl bg-white">
+        <Table>
           <thead>
             <tr>
               <th>الصنف</th>

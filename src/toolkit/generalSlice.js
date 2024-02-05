@@ -4,7 +4,7 @@ const initialState = {
   accessAllow: false,
   activePartAtHome: "workers",
   isFullactToggleGroup: true,
-  username: "",
+  user: { name: "" },
 };
 
 const generalSlice = createSlice({
@@ -23,15 +23,15 @@ const generalSlice = createSlice({
     fullactToggle(state, action) {
       state.isFullactToggleGroup = action.payload;
     },
-    saveUsername(state, action) {
-      state.username = action.payload;
+    saveUser(state, action) {
+      state.user = action.payload;
     },
   },
   extraReducers: {},
 });
 
 export const selectActivePartAtHome = (state) => state.general.activePartAtHome;
-export const username = (state) => state.general.username;
+export const user = (state) => state.general.user;
 export const selectFullactToggle = (state) =>
   state.general.isFullactToggleGroup;
 
@@ -40,7 +40,7 @@ export const {
   fullactToggle,
   updateActivePartAtHome,
   updateActivePartAtSidebar,
-  saveUsername,
+  saveUser,
 } = generalSlice.actions;
 
 export default generalSlice.reducer;

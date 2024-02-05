@@ -8,7 +8,7 @@ import {
   selectUsersLoading,
 } from "../toolkit/loginSlice";
 import Loading from "./animation/Loading";
-import { saveUsername } from "../toolkit/generalSlice";
+import { saveUser } from "../toolkit/generalSlice";
 ("../toolkit/generalSlice");
 
 const Login = () => {
@@ -41,7 +41,7 @@ const Login = () => {
     usersData.forEach((user) => {
       if (user.name === username && user.pass === pass) {
         dispatch(openAccess(user.userId));
-        dispatch(saveUsername(user.name));
+        dispatch(saveUser(user));
       }
     });
     if (!access) {
@@ -61,13 +61,13 @@ const Login = () => {
           <p id="errorMsg" className="text-red-600 hidden">
             خطأ في إسم المستخدم أو كلمة المرور!!
           </p>
-          <label htmlFor="codeInput" className="font-semibold text-sm">
+          <label htmlFor="username" className="font-semibold text-sm">
             أدخل إسم المستخدم:
           </label>
           <input
             type="text"
             id="username"
-            placeholder="text"
+            placeholder="test"
             value={username}
             className="border-2 border-solid bg-gray-200 border-gray-200 rounded-md py-3 px-5 focus:border-main focus:outline-none"
             onChange={onUsernameChange}
@@ -75,13 +75,13 @@ const Login = () => {
           />
         </div>
         <div className="flex flex-col gap-2">
-          <label htmlFor="codeInput" className="font-semibold text-sm">
+          <label htmlFor="pass" className="font-semibold text-sm">
             أدخل الكود الخاص بك:
           </label>
           <input
             type="password"
             id="pass"
-            placeholder="12345678"
+            placeholder="123"
             value={pass}
             className="border-2 border-solid bg-gray-200 border-gray-200 rounded-md py-3 px-5 focus:border-main focus:outline-none"
             onChange={onPassChange}
