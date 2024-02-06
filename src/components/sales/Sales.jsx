@@ -15,10 +15,12 @@ import { useState } from "react";
 import Loading from "../animation/Loading";
 import { selectUserId } from "../../toolkit/loginSlice";
 import { handleDeleting } from "../../utils/functions";
+import { user } from "../../toolkit/generalSlice";
 
 const Sales = () => {
   const dispatch = useDispatch();
   const userId = useSelector(selectUserId);
+  const userInfo = useSelector(user);
 
   const [salesData, setSalesData] = useState();
   const [loading, setLoading] = useState(false);
@@ -91,14 +93,14 @@ const Sales = () => {
                     <tr key={sale.id}>
                       <td key="1">{sale.vegName}</td>
                       <td className="hidden md:block" key="3">
-                        {sale.price} {sale.currencyName}
+                        {userInfo.currency} {sale.price}
                       </td>
                       <td className="hidden md:block" key="2">
                         {sale.quantity}
                       </td>
                       <td key="8">
+                        {userInfo.currency}{" "}
                         {(sale.price * sale.quantity).toFixed(2)}{" "}
-                        {sale.currencyName}
                       </td>
                       <td key="4">{sale.date}</td>
                       <td key="5">

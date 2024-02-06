@@ -24,11 +24,6 @@ import {
   handleAdding,
   handleUpdating,
 } from "../../utils/functions";
-import {
-  getCurrency,
-  selectCurrencyEntities,
-  selectCurrencyLoading,
-} from "../../toolkit/currencySlice";
 import AddingForm from "../styles/AddingForm.styled";
 
 // eslint-disable-next-line react/prop-types
@@ -41,8 +36,6 @@ const AddGroupsAct = ({ update }) => {
   const vegsLoading = useSelector(selectVegsLoading);
   const bringGroupData = useSelector(selectGroupsEntities);
   const groupsLoading = useSelector(selectGroupsLoading);
-  const bringCurrencyData = useSelector(selectCurrencyEntities);
-  const currencyLoading = useSelector(selectCurrencyLoading);
 
   // Inputs states
   const [hourPrice, setHourPrice] = useState(0);
@@ -50,9 +43,6 @@ const AddGroupsAct = ({ update }) => {
     doc(database, `users/${userId}/vegs`, "00000000000000000000")
   );
   const [act, setAct] = useState("");
-  const [currency, setCurrency] = useState(
-    doc(database, `users/${userId}/currency`, "00000000000000000000")
-  );
   const [group, setGroup] = useState(
     doc(database, `users/${userId}/groups`, "00000000000000000000")
   );
@@ -64,22 +54,18 @@ const AddGroupsAct = ({ update }) => {
   // loading setting
   const [loading, setLoading] = useState(false);
   useEffect(() => {
-    vegsLoading === "loading" ||
-    groupsLoading === "loading" ||
-    currencyLoading === "loading"
+    vegsLoading === "loading" || groupsLoading === "loading"
       ? setLoading(true)
       : setLoading(false);
-  }, [vegsLoading, groupsLoading, currencyLoading]);
+  }, [vegsLoading, groupsLoading]);
 
   // Getting data and setting it to vegsData state
   const [vegsData, setVegsData] = useState([]);
   const [groupsData, setgroupsData] = useState([]);
-  const [currencyData, setCurrencyData] = useState();
 
   useEffect(() => {
     dispatch(getVegs());
     dispatch(getGroups());
-    dispatch(getCurrency());
   }, []);
   useEffect(() => {
     setVegsData(bringVegData);
@@ -87,9 +73,6 @@ const AddGroupsAct = ({ update }) => {
   useEffect(() => {
     setgroupsData(bringGroupData);
   }, [bringGroupData]);
-  useEffect(() => {
-    setCurrencyData(bringCurrencyData);
-  }, [bringCurrencyData]);
 
   // filling the states on update
   useEffect(() => {
@@ -100,12 +83,6 @@ const AddGroupsAct = ({ update }) => {
       setAct(state.act);
       const groupDoc = doc(database, `users/${userId}/groups`, state.groupId);
       setGroup(groupDoc);
-      const currencyDoc = doc(
-        database,
-        `users/${userId}/currency`,
-        state.currencyId
-      );
-      setCurrency(currencyDoc);
       setHourPrice(Number(state.hourPrice));
       setWorkersNum(Number(state.workersNum));
       setHourPrice(Number(state.hourPrice));
@@ -140,7 +117,6 @@ const AddGroupsAct = ({ update }) => {
     obj.hourPrice = hourPrice;
     obj.isPaid = isPaid;
     obj.date = date;
-    obj.currency = currency;
     return { ...obj };
   };
   const handleSubmitBtn = () => {
@@ -227,16 +203,6 @@ const AddGroupsAct = ({ update }) => {
                 listName="إختر ورشة"
                 setValue={() => setGroup}
                 selectedItem={update && state.groupId}
-              />
-            </div>
-            <div>
-              <label>العملات</label>
-              <SelectMenu
-                conectionName="currency"
-                data={currencyData && currencyData}
-                listName="إختر عملة"
-                setValue={() => setCurrency}
-                selectedItem={update && state.currencyId}
               />
             </div>
           </div>

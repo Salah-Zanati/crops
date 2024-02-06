@@ -19,7 +19,6 @@ export const convertDate = (date) => {
 
 export const handleAdding = (setLoading, path, data) => {
   const collectionRef = collection(database, `users/${path}`);
-  console.log(data());
   setLoading(true);
   addDoc(collectionRef, data())
     .then(() => {

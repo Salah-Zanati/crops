@@ -19,11 +19,6 @@ import {
   handleAdding,
   handleUpdating,
 } from "../../utils/functions";
-import {
-  getCurrency,
-  selectCurrencyEntities,
-  selectCurrencyLoading,
-} from "../../toolkit/currencySlice";
 import AddingForm from "../styles/AddingForm.styled";
 
 // eslint-disable-next-line react/prop-types
@@ -35,40 +30,27 @@ const AddFullact = ({ update }) => {
   const bringVegData = useSelector(selectVegsEntities);
   const vegsLoading = useSelector(selectVegsLoading);
 
-  const bringCurrencyData = useSelector(selectCurrencyEntities);
-  const currencyLoading = useSelector(selectCurrencyLoading);
-
   // Inputs states
   const [hourPrice, setHourPrice] = useState(0);
   const [veg, setVeg] = useState(
     doc(database, `users/${userId}/vegs`, "00000000000000000000")
   );
   const [act, setAct] = useState("");
-  const [currency, setCurrency] = useState(
-    doc(database, `users/${userId}/currency`, "00000000000000000000")
-  );
   const [date, setDate] = useState(Timestamp.fromDate(new Date()));
   // loading setting
   const [loading, setLoading] = useState(false);
   useEffect(() => {
-    vegsLoading === "loading" || currencyLoading === "loading"
-      ? setLoading(true)
-      : setLoading(false);
-  }, [vegsLoading, currencyLoading]);
+    vegsLoading === "loading" ? setLoading(true) : setLoading(false);
+  }, [vegsLoading]);
 
   // Getting data and setting it to vegsData state
   const [vegsData, setVegsData] = useState([]);
-  const [currencyData, setCurrencyData] = useState();
   useEffect(() => {
     dispatch(getVegs());
-    dispatch(getCurrency());
   }, []);
   useEffect(() => {
     setVegsData(bringVegData);
   }, [bringVegData]);
-  useEffect(() => {
-    setCurrencyData(bringCurrencyData);
-  }, [bringCurrencyData]);
 
   // filling the states on update
   useEffect(() => {
@@ -76,12 +58,6 @@ const AddFullact = ({ update }) => {
       setLoading(true);
       const vegDoc = doc(database, `users/${userId}/vegs`, state.vegId);
       setVeg(vegDoc);
-      const currencyDoc = doc(
-        database,
-        `users/${userId}/currency`,
-        state.currencyId
-      );
-      setCurrency(currencyDoc);
       setAct(state.act);
       setHourPrice(Number(state.hourPrice));
       const selectedDate = new Date(state.date);
@@ -106,7 +82,6 @@ const AddFullact = ({ update }) => {
     obj.veg = veg;
     obj.act = act;
     obj.date = date;
-    obj.currency = currency;
     obj.hourPrice = hourPrice;
     return { ...obj };
   };
@@ -152,7 +127,7 @@ const AddFullact = ({ update }) => {
               />
             </div>
           </div>
-          <div className="justify-between">
+          <div>
             <div>
               <label>الأصناف:</label>
               <SelectMenu
@@ -163,18 +138,6 @@ const AddFullact = ({ update }) => {
                 selectedItem={update && state.vegId}
               />
             </div>
-            <div>
-              <label>العملات:</label>
-              <SelectMenu
-                conectionName="currency"
-                data={currencyData && currencyData}
-                listName="إختر عملة"
-                setValue={() => setCurrency}
-                selectedItem={update && state.currencyId}
-              />
-            </div>
-          </div>
-          <div className="d-p">
             <div>
               <label htmlFor="date"> التاريخ: </label>
               <Input

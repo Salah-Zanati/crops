@@ -21,11 +21,16 @@ import {
 } from "../../toolkit/groupsActsSlice";
 import { selectUserId } from "../../toolkit/loginSlice";
 import { handleDeleting } from "../../utils/functions";
-import { fullactToggle, selectFullactToggle } from "../../toolkit/generalSlice";
+import {
+  fullactToggle,
+  selectFullactToggle,
+  user,
+} from "../../toolkit/generalSlice";
 
 const Fullact = () => {
   const dispatch = useDispatch();
   const userId = useSelector(selectUserId);
+  const userInfo = useSelector(user);
 
   const bringFullactsData = useSelector(selectFullactEntities);
   const fullactsLoading = useSelector(selectFullactLoading);
@@ -142,18 +147,18 @@ const Fullact = () => {
                             {act.hoursNum}
                           </td>
                           <td className="hidden md:block" key="6">
-                            {act.hourPrice} {act.currencyName}
+                            {userInfo.currency} {act.hourPrice}
                           </td>
                           <td className="hidden md:block" key="7">
                             {act.workersNum}
                           </td>
                           <td key="8">
+                            {userInfo.currency}{" "}
                             {(
                               act.workersNum *
                               act.hoursNum *
                               act.hourPrice
                             ).toFixed(2)}{" "}
-                            {act.currencyName}
                           </td>
                           <td key="10">
                             {act.isPaid === true ? "مسددة" : "غير مسددة"}
@@ -227,7 +232,7 @@ const Fullact = () => {
                           </td>
                           <td key="3">{fullact.vegName}</td>
                           <td key="4">
-                            {fullact.hourPrice} {fullact.currencyName}
+                            {userInfo.currency} {fullact.hourPrice}
                           </td>
                           <td
                             key="5"

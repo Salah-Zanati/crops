@@ -5,10 +5,13 @@ import Container from "./styles/Container.styled";
 import SettingRow from "./styles/SettingRow.styled";
 import { useSelector } from "react-redux";
 import { user } from "../toolkit/generalSlice";
+import { doc, updateDoc } from "firebase/firestore";
+import { database } from "../firebaseConfig";
 import Loading from "./animation/LoadingLine";
 
 const Setting = () => {
   const [editing, setEditing] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const [username, setUsername] = useState("");
   const [currency, setCurrency] = useState("");
@@ -52,6 +55,16 @@ const Setting = () => {
           onClick={() => {
             if (editing) {
               setEditing(false);
+              const docToUpdate = doc(database, `usersInfo/${userInfo.id}`);
+              setLoading(true);
+              updateDoc(docToUpdate, { name: username, currency })
+                .then(() => {
+                  setLoading(false);
+                  alert("تم التعديل بنجاح.");
+                })
+                .catch((err) => {
+                  alert(err.message);
+                });
             } else {
               setEditing(true);
             }

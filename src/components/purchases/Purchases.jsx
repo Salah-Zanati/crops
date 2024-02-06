@@ -16,10 +16,12 @@ import {
 } from "../../toolkit/purchasesSlice";
 import { selectUserId } from "../../toolkit/loginSlice";
 import { handleDeleting } from "../../utils/functions";
+import { user } from "../../toolkit/generalSlice";
 
 const Purchases = () => {
   const dispatch = useDispatch();
   const userId = useSelector(selectUserId);
+  const userInfo = useSelector(user);
 
   const [purchasesData, setPurchasesData] = useState();
   const [loading, setLoading] = useState(false);
@@ -97,11 +99,10 @@ const Purchases = () => {
                         {purchase.quantity}
                       </td>
                       <td className="hidden md:block" key="3">
-                        {purchase.price} {purchase.currencyName}
+                        {userInfo.currency} {purchase.price}
                       </td>
                       <td key="8">
-                        {purchase.price * purchase.quantity}{" "}
-                        {purchase.currencyName}
+                        {userInfo.currency} {purchase.price * purchase.quantity}{" "}
                       </td>
                       <td className="hidden md:block" key="9">
                         {purchase.vegName}

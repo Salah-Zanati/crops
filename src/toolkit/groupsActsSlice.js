@@ -11,11 +11,10 @@ export const getGroupsActs = createAsyncThunk(
     try {
       const userId = getState().users.ref;
       const collectionRef = collection(database, `users/${userId}/groupsActs`);
-
       const querySnapshot = await getDocs(collectionRef);
       const data = await Promise.all(
         querySnapshot.docs.map(async (item) => {
-          let { act, veg, group, currency, date, ...rest } = item.data();
+          let { act, veg, group, date, ...rest } = item.data();
           // Fetch the act document and veg document using the reference
           if (typeof act !== "string") act = "غير موجود";
 
@@ -35,14 +34,6 @@ export const getGroupsActs = createAsyncThunk(
             groupId = groupDoc.id;
           }
 
-          const currencyDoc = await getDoc(currency);
-          var currencyName = "غير موجود",
-            currencyId = "00000000000000000000";
-          if (currencyDoc.exists()) {
-            currencyName = currencyDoc.data().name;
-            currencyId = currencyDoc.id;
-          }
-
           const theDate = convertDate(date.toMillis());
 
           return {
@@ -54,8 +45,6 @@ export const getGroupsActs = createAsyncThunk(
             vegId,
             groupName,
             groupId,
-            currencyName,
-            currencyId,
           };
         })
       );

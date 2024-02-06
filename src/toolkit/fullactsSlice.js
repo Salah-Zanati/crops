@@ -11,11 +11,10 @@ export const getFullacts = createAsyncThunk(
     try {
       const userId = getState().users.ref;
       const collectionRef = collection(database, `users/${userId}/fullacts`);
-
       const querySnapshot = await getDocs(collectionRef);
       const data = await Promise.all(
         querySnapshot.docs.map(async (item) => {
-          let { act, veg, date, currency, ...rest } = item.data();
+          let { act, veg, date, ...rest } = item.data();
 
           // Fetch the inner collection
           const innerCollectionRef = collection(item.ref, "fullactWorkers");
@@ -33,15 +32,6 @@ export const getFullacts = createAsyncThunk(
             vegName = vegDoc.data().name;
             vegId = vegDoc.id;
           }
-          var currencyName = "غير موجود",
-            currencyId = "00000000000000000000";
-          if (currency) {
-            const currencyDoc = await getDoc(currency);
-            if (currencyDoc.exists()) {
-              currencyName = currencyDoc.data().name;
-              currencyId = currencyDoc.id;
-            }
-          }
 
           const theDate = convertDate(date.toMillis());
 
@@ -50,9 +40,7 @@ export const getFullacts = createAsyncThunk(
             id: item.id,
             date: theDate,
             vegName,
-            currencyName,
             vegId,
-            currencyId,
             act,
             innerData, // Include fetched inner collection data in the result
           };

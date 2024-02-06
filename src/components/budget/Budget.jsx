@@ -35,9 +35,11 @@ import {
   displaySalesBudget,
   displayWorkersBuget,
 } from "./displayBudget";
+import { user } from "../../toolkit/generalSlice";
 
 export const Budget = () => {
   const dispatch = useDispatch();
+  const userInfo = useSelector(user);
 
   // Fetching data
   useEffect(() => {
@@ -127,7 +129,8 @@ export const Budget = () => {
                         displayWorkersBuget(veg.name, fullacts, groupsActs)}
                     </td>
                     <td key="5">
-                      {budget.sales - budget.purchases - budget.workers} $
+                      {userInfo.currency}{" "}
+                      {budget.sales - budget.purchases - budget.workers}
                     </td>
                   </tr>
                 );

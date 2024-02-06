@@ -1,6 +1,4 @@
 import { useLocation } from "react-router-dom";
-import Box from "../styles/Box.styled";
-import Container from "../styles/Container.styled";
 import Input from "../styles/Input.styled";
 import { useDispatch, useSelector } from "react-redux";
 import {

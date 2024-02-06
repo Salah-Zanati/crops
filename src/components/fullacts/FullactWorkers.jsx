@@ -15,10 +15,12 @@ import { useEffect } from "react";
 import Loading from "../animation/Loading";
 import { selectUserId } from "../../toolkit/loginSlice";
 import { handleDeleting } from "../../utils/functions";
+import { user } from "../../toolkit/generalSlice";
 
 function Fullactworkers() {
   const dispatch = useDispatch();
   const userId = useSelector(selectUserId);
+  const userInfo = useSelector(user);
   const bringFullactworkersData = useSelector(selectFullactWorkersEntities);
   const fullactworkersLoading = useSelector(selectFullactWorkersLoading);
   let { state } = useLocation();
@@ -95,8 +97,8 @@ function Fullactworkers() {
                       <td key="1">{fullactworker.workerName}</td>
                       <td key="2">{fullactworker.hoursNum}</td>
                       <td key="5">
-                        {fullactworker.hoursNum * state.hourPrice}{" "}
-                        {state.currencyName}
+                        {userInfo.currency}{" "}
+                        {fullactworker.hoursNum * state.hourPrice}
                       </td>
                       <td key="3">
                         {fullactworker.isPaid ? "مسددة" : "غير مسددة"}

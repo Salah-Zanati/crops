@@ -12,11 +12,10 @@ export const getPurchases = createAsyncThunk(
     try {
       const userId = getState().users.ref;
       const collectionRef = collection(database, `users/${userId}/purchases`);
-
       const querySnapshot = await getDocs(collectionRef);
       const data = await Promise.all(
         querySnapshot.docs.map(async (item) => {
-          let { seller, currency, material, veg, date, ...rest } = item.data();
+          let { seller, material, veg, date, ...rest } = item.data();
           // Fetch the seller document and material document using the reference
           const sellerDoc = await getDoc(seller);
           var sellerName = "غير موجود",
@@ -34,15 +33,6 @@ export const getPurchases = createAsyncThunk(
             vegName = vegDoc.data().name;
             vegId = vegDoc.id;
           }
-          var currencyName = "غير موجود",
-            currencyId = "00000000000000000000";
-          if (currency) {
-            const currencyDoc = await getDoc(currency);
-            if (currencyDoc.exists()) {
-              currencyName = currencyDoc.data().name;
-              currencyId = currencyDoc.id;
-            }
-          }
 
           const theDate = convertDate(date.toMillis());
 
@@ -54,8 +44,6 @@ export const getPurchases = createAsyncThunk(
             sellerId,
             vegName,
             vegId,
-            currencyId,
-            currencyName,
             material,
           };
         })

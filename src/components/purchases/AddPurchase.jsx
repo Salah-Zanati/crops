@@ -25,11 +25,6 @@ import {
   handleAdding,
   handleUpdating,
 } from "../../utils/functions";
-import {
-  getCurrency,
-  selectCurrencyEntities,
-  selectCurrencyLoading,
-} from "../../toolkit/currencySlice.js";
 import AddingForm from "../styles/AddingForm.styled.jsx";
 
 // eslint-disable-next-line react/prop-types
@@ -47,13 +42,9 @@ const AddPurchase = ({ update }) => {
   const [veg, setVeg] = useState(
     doc(database, `users/${userId}/vegs`, "00000000000000000000")
   );
-  const [currency, setCurrency] = useState(
-    doc(database, `users/${userId}/currency`, "00000000000000000000")
-  );
   const [loading, setLoading] = useState(false);
   const [sellersData, setSellersData] = useState();
   const [vegsData, setVegsData] = useState();
-  const [currencyData, setCurrencyData] = useState();
 
   const dispatch = useDispatch();
 
@@ -61,15 +52,12 @@ const AddPurchase = ({ update }) => {
   const bringVegsData = useSelector(selectVegsEntities);
   const sellersLoading = useSelector(selectSellersLoading);
   const vegsLoading = useSelector(selectVegsLoading);
-  const bringCurrencyData = useSelector(selectCurrencyEntities);
-  const currencyLoading = useSelector(selectCurrencyLoading);
 
   let { state } = useLocation();
 
   useEffect(() => {
     dispatch(getSellers());
     dispatch(getVegs());
-    dispatch(getCurrency());
   }, []);
 
   useEffect(() => {
@@ -81,16 +69,10 @@ const AddPurchase = ({ update }) => {
   }, [bringVegsData]);
 
   useEffect(() => {
-    setCurrencyData(bringCurrencyData);
-  }, [bringCurrencyData]);
-
-  useEffect(() => {
-    sellersLoading === "loading" ||
-    vegsLoading === "loading" ||
-    currencyLoading === "loading"
+    sellersLoading === "loading" || vegsLoading === "loading"
       ? setLoading(true)
       : setLoading(false);
-  }, [sellersLoading, vegsLoading, currencyLoading]);
+  }, [sellersLoading, vegsLoading]);
 
   useEffect(() => {
     if (update) {
@@ -109,12 +91,6 @@ const AddPurchase = ({ update }) => {
       );
       setSeller(sellerDoc);
       const vegDoc = doc(database, `users/${userId}/vegs`, state.vegId);
-      const currencyDoc = doc(
-        database,
-        `users/${userId}/currency`,
-        state.currencyId
-      );
-      setCurrency(currencyDoc);
       setVeg(vegDoc);
       setLoading(false);
     }
@@ -138,7 +114,6 @@ const AddPurchase = ({ update }) => {
     obj.price = price;
     obj.date = date;
     obj.seller = seller;
-    obj.currency = currency;
     obj.isPaid = isPaid;
     return { ...obj };
   };
@@ -215,16 +190,6 @@ const AddPurchase = ({ update }) => {
                 listName="إختر صنف"
                 setValue={() => setVeg}
                 selectedItem={update && state.vegId}
-              />
-            </div>
-            <div>
-              <label htmlFor="currency">العملة: </label>
-              <SelectMenu
-                conectionName="currency"
-                data={currencyData && currencyData}
-                listName="إختر عملة"
-                setValue={() => setCurrency}
-                selectedItem={update && state.currencyId}
               />
             </div>
           </div>

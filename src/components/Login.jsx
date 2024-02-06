@@ -67,7 +67,7 @@ const Login = () => {
           <input
             type="text"
             id="username"
-            placeholder="test"
+            placeholder="إسم المستخدم..."
             value={username}
             className="border-2 border-solid bg-gray-200 border-gray-200 rounded-md py-3 px-5 focus:border-main focus:outline-none"
             onChange={onUsernameChange}
@@ -81,7 +81,7 @@ const Login = () => {
           <input
             type="password"
             id="pass"
-            placeholder="123"
+            placeholder="الكود..."
             value={pass}
             className="border-2 border-solid bg-gray-200 border-gray-200 rounded-md py-3 px-5 focus:border-main focus:outline-none"
             onChange={onPassChange}

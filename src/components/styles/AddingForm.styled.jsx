@@ -37,20 +37,22 @@ const AddingForm = styled.div`
   & form > div > div {
     flex-basis: 50%;
   }
-  & form > div.d-p {
+  & form div.d-p {
     justify-content: space-evenly;
     flex-direction: row;
   }
-  & form > div.d-p > div {
+  & form div.d-p > div {
     display: flex;
     align-items: center;
+    width: fit-content;
+    flex-basis: 0;
     gap: 10px;
   }
-  & form > div.d-p > div input[type="date"] {
+  & form div.d-p > div input[type="date"] {
     padding: 8px;
     border-radius: 12px;
   }
-  & form > div.d-p > div input[type="checkbox"] {
+  & form div.d-p > div input[type="checkbox"] {
     height: 20px;
     width: 20px;
   }
