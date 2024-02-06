@@ -8,7 +8,7 @@
 
 ## Overview
 
-![screenshot](./src/assets/screenshot.png")
+![screenshot](./src/assets/screenshot.png)
 
 ## Built With
 
