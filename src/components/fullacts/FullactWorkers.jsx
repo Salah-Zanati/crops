@@ -16,6 +16,8 @@ import Loading from "../animation/Loading";
 import { selectUserId } from "../../toolkit/loginSlice";
 import { handleDeleting } from "../../utils/functions";
 import { user } from "../../toolkit/generalSlice";
+import { database } from "../../firebaseConfig";
+import { doc, updateDoc } from "firebase/firestore";
 
 function Fullactworkers() {
   const dispatch = useDispatch();
@@ -44,14 +46,39 @@ function Fullactworkers() {
     <Container className="my-5">
       <Box>
         <div className="flex flex-col justify-between items-center gap-2 mb-2 sm:flex-row">
-          <Button.large>
-            <Link
-              to="/fullactWorkers/addFullactWorkers"
-              state={{ ...state, fullactId }}
+          <div className="flex gap-2">
+            <Button.large>
+              <Link
+                to="/fullactWorkers/addFullactWorkers"
+                state={{ ...state, fullactId }}
+              >
+                إضافة عمال
+              </Link>
+            </Button.large>
+            <Button.large
+              onClick={() => {
+                fullactworkersData.forEach((e) => {
+                  let submitingObject = { ...e, isPaid: true };
+                  const docToUpdate = doc(
+                    database,
+                    `users/${userId}/fullacts/${fullactId}/fullactWorkers`,
+                    e.id
+                  );
+                  setLoading(true);
+                  updateDoc(docToUpdate, submitingObject)
+                    .then(() => {
+                      setLoading(false);
+                      dispatch(getFullactWorkers(fullactId));
+                    })
+                    .catch((err) => {
+                      console.log(err.message);
+                    });
+                });
+              }}
             >
-              إضافة عمال
-            </Link>
-          </Button.large>
+              تسديد
+            </Button.large>
+          </div>
           <Input
             type="text"
             placeholder="بحث..."
