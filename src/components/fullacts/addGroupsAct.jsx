@@ -188,21 +188,21 @@ const AddGroupsAct = ({ update }) => {
             <div>
               <label>الأصناف</label>
               <SelectMenu
-                conectionName="vegs"
+                conection="vegs"
                 data={vegsData && vegsData}
                 listName="إختر صنف"
-                setValue={() => setVeg}
-                selectedItem={update && state.vegId}
+                setValue={setVeg}
+                existed={update && state.vegId}
               />
             </div>
             <div>
               <label>الورش</label>
               <SelectMenu
-                conectionName="groups"
+                conection="groups"
                 data={groupsData && groupsData}
                 listName="إختر ورشة"
-                setValue={() => setGroup}
-                selectedItem={update && state.groupId}
+                setValue={setGroup}
+                existed={update && state.groupId}
               />
             </div>
           </div>

@@ -56,8 +56,8 @@ const Sales = () => {
           <thead>
             <tr>
               <th>الصنف</th>
-              <th className="hidden md:block">السعر</th>
-              <th className="hidden md:block">الكمية</th>
+              <th>السعر</th>
+              <th>الكمية</th>
               <th>الإجمالي</th>
               <th>التاريخ</th>
               <th>الزبون</th>

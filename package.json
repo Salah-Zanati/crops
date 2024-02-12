@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@headlessui/react": "^1.7.18",
+    "@heroicons/react": "^2.1.1",
     "@iconscout/react-unicons": "^2.0.2",
     "@reduxjs/toolkit": "^1.9.7",
     "firebase": "^10.5.2",

@@ -12,10 +12,11 @@ import { doc } from "firebase/firestore";
 import { database } from "../../firebaseConfig";
 import Button from "../styles/Button.styled";
 import LoadingLine from "../animation/LoadingLine";
-import SelectMenu from "../styles/SelectMenu";
 import { selectUserId } from "../../toolkit/loginSlice";
 import { handleAdding, handleUpdating } from "../../utils/functions";
 import AddingForm from "../styles/AddingForm.styled";
+import SelectManyMenu from "../styles/SelectManyMenu";
+import SelectMenu from "../styles/SelectMenu";
 
 // eslint-disable-next-line react/prop-types
 const AddFullactWorkers = ({ update }) => {
@@ -33,6 +34,7 @@ const AddFullactWorkers = ({ update }) => {
     doc(database, `users/${userId}/workers`, "00000000000000000000")
   );
   const [isPaid, setIsPaid] = useState(false);
+  const [workersGroup, setWorkersGroup] = useState([]);
 
   // Loading setting
   const [loading, setLoading] = useState(false);
@@ -70,7 +72,7 @@ const AddFullactWorkers = ({ update }) => {
   const onIsPaidChange = () => setIsPaid(!isPaid);
 
   // Handle submit
-  const submitingObject = () => {
+  const submitingObject = (worker) => {
     let obj = {};
     obj.hoursNum = hoursNum;
     obj.worker = worker;
@@ -78,19 +80,25 @@ const AddFullactWorkers = ({ update }) => {
     return { ...obj };
   };
   const handleSubmitBtn = () => {
-    if (!update)
-      handleAdding(
-        setLoading,
-        `${userId}/fullacts/${fullactId}/fullactWorkers`,
-        submitingObject
-      );
-    if (update)
+    // console.log(workersGroup);
+    if (!update) {
+      workersGroup.forEach((e) => {
+        const workerDoc = doc(database, `users/${userId}/workers`, e.id);
+        handleAdding(
+          setLoading,
+          `${userId}/fullacts/${fullactId}/fullactWorkers`,
+          () => submitingObject(workerDoc)
+        );
+      });
+    }
+    if (update) {
       handleUpdating(
         setLoading,
         `${userId}/fullacts/${fullactId}/fullactWorkers`,
         state.id,
-        submitingObject
+        () => submitingObject(worker)
       );
+    }
   };
 
   return (
@@ -111,14 +119,22 @@ const AddFullactWorkers = ({ update }) => {
               />
             </div>
             <div>
-              <label>إختر العامل:</label>
-              <SelectMenu
-                conectionName="workers"
-                data={workersData && workersData}
-                listName="إختر عامل"
-                setValue={() => setWorker}
-                selectedItem={update && state.workerId}
-              />
+              <label>إختر عامل:</label>
+              {update ? (
+                <SelectMenu
+                  conection="workers"
+                  data={workersData && workersData}
+                  listName="إختر عامل"
+                  setValue={setWorker}
+                  existed={update && state.workerId}
+                />
+              ) : (
+                <SelectManyMenu
+                  listName="العمال"
+                  data={workersData && workersData}
+                  setWorkersGroup={setWorkersGroup}
+                />
+              )}
             </div>
           </div>
           <div className="d-p">

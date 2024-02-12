@@ -107,12 +107,12 @@ const Fullact = () => {
               <thead>
                 <tr>
                   <th>التاريخ</th>
-                  <th className="hidden md:block">العملية</th>
+                  <th>العملية</th>
                   <th>الصنف</th>
                   <th>صاحب الورشة</th>
-                  <th className="hidden md:block">عدد الساعات</th>
-                  <th className="hidden md:block">سعر الساعة</th>
-                  <th className="hidden md:block">عدد العمال</th>
+                  <th>عدد الساعات</th>
+                  <th>سعر الساعة</th>
+                  <th>عدد العمال</th>
                   <th>الإجمالي</th>
                   <th>مسددة أم لا</th>
                   <th>العمليات</th>

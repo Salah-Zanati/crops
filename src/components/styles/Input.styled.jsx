@@ -1,15 +1,16 @@
 import { styled } from "styled-components";
 
 const Input = styled.input`
-  padding: 10px 15px;
-  font-size: 18px;
-  border: 2px solid #eee;
-  border-radius: 10px;
+  padding: 6px 12px;
+  font-size: 16px;
+  outline: 1px solid #d5d5d5;
+  border-radius: 5px;
   width: 100%;
 
   &:focus {
-    outline: none;
-    border-color: var(--main-color);
+    /* outline: none; */
+    outline: 2px solid var(--main-color);
+    outline-offset: -1px;
   }
 `;
 export default Input;

@@ -18,7 +18,7 @@ import {
   selectCustomersEntities,
   selectCustomersLoading,
 } from "../../toolkit/customersSlice";
-import SelectMenu from "../styles/SelectMenu";
+import SelectMenu from "../styles/SelectMenu.jsx";
 import { selectUserId } from "../../toolkit/loginSlice";
 import {
   convertDate,
@@ -97,7 +97,6 @@ const AddSale = ({ update }) => {
     setDate(timestemp);
   };
   const onIsPaidChange = () => setIsPaid(!isPaid);
-
   const submitingObject = () => {
     let obj = {};
     obj.veg = veg;
@@ -148,21 +147,22 @@ const AddSale = ({ update }) => {
             <div>
               <label>الأصناف:</label>
               <SelectMenu
-                conectionName="vegs"
+                conection="vegs"
                 data={vegsData && vegsData}
                 listName="إختر صنف"
-                setValue={() => setVeg}
-                selectedItem={update && state.vegId}
+                setValue={setVeg}
+                existed={update && state.vegId}
               />
             </div>
+
             <div>
               <label>الزبائن:</label>
               <SelectMenu
-                conectionName="customers"
+                conection="customers"
                 data={customersData && customersData}
                 listName="إختر زبون"
-                setValue={() => setCustomer}
-                selectedItem={update && state.customerId}
+                setValue={setCustomer}
+                existed={update && state.customerId}
               />
             </div>
           </div>

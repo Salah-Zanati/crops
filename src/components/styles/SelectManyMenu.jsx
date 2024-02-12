@@ -1,46 +1,29 @@
 import { Fragment, useEffect, useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
-import { doc } from "firebase/firestore";
-import { database } from "../../firebaseConfig";
-import { useSelector } from "react-redux";
-import { selectUserId } from "../../toolkit/loginSlice";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
 // eslint-disable-next-line react/prop-types
-const SelectMenu = ({ listName, data = [], setValue, conection, existed }) => {
-  const userId = useSelector(selectUserId);
-
-  const [selected, setSelected] = useState({});
-
+const SelectManyMenu = ({ listName, data = [], setWorkersGroup }) => {
+  const [selected, setSelected] = useState([]);
+  const [listText, setListText] = useState([]);
   useEffect(() => {
-    if (selected.id) {
-      const selectedDoc = doc(
-        database,
-        `users/${userId}/${conection}`,
-        selected.id
-      );
-      setValue(selectedDoc);
-    }
+    setListText(selected.map((e) => e.name));
+    setWorkersGroup(selected);
   }, [selected]);
-  useEffect(() => {
-    if (existed) {
-      data.forEach((e) => e.id === existed && setSelected(e));
-    }
-  }, [data]);
 
   return (
-    <Listbox value={selected} onChange={setSelected}>
+    <Listbox value={selected} onChange={setSelected} multiple>
       {({ open }) => (
         <>
           <div className="relative">
             <Listbox.Button className="relative w-full cursor-default rounded-md bg-white py-1.5 pr-3 pl-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-main sm:text-sm sm:leading-6">
               <span className="flex items-center">
                 <span className="block truncate w-[60vw] text-right text-base sm:w-[140px]">
-                  {selected.name ? selected.name : listName}
+                  {listText.length ? listText.join(", ") : listName}
                 </span>
               </span>
               <span className="pointer-events-none absolute inset-y-0 left-0 ml-3 flex items-center pr-2">
@@ -50,6 +33,7 @@ const SelectMenu = ({ listName, data = [], setValue, conection, existed }) => {
                 />
               </span>
             </Listbox.Button>
+
             <Transition
               show={open}
               as={Fragment}
@@ -109,4 +93,4 @@ const SelectMenu = ({ listName, data = [], setValue, conection, existed }) => {
   );
 };
 
-export default SelectMenu;
+export default SelectManyMenu;

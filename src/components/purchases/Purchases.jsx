@@ -58,10 +58,10 @@ const Purchases = () => {
           <thead>
             <tr>
               <th>الشراء</th>
-              <th className="hidden md:block">الكمية</th>
-              <th className="hidden md:block">السعر</th>
+              <th>الكمية</th>
+              <th>السعر</th>
               <th>الإجمالي</th>
-              <th className="hidden md:block">الصنف</th>
+              <th>الصنف</th>
               <th>التاريخ</th>
               <th>البائع</th>
               <th>مسددة ام لا</th>

@@ -175,21 +175,21 @@ const AddPurchase = ({ update }) => {
             <div>
               <label htmlFor="purchaseSeller">البائعين: </label>
               <SelectMenu
-                conectionName="sellers"
+                conection="sellers"
                 data={sellersData && sellersData}
                 listName="إختر بائع"
-                setValue={() => setSeller}
-                selectedItem={update && state.sellerId}
+                setValue={setSeller}
+                existed={update && state.sellerId}
               />
             </div>
             <div>
               <label htmlFor="purchaseVeg">الصنف: </label>
               <SelectMenu
-                conectionName="vegs"
+                conection="vegs"
                 data={vegsData && vegsData}
                 listName="إختر صنف"
-                setValue={() => setVeg}
-                selectedItem={update && state.vegId}
+                setValue={setVeg}
+                existed={update && state.vegId}
               />
             </div>
           </div>

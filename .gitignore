@@ -25,3 +25,5 @@ dist-ssr
 
 #firebase config
 firebaseConfig.js
+.firebaserc
+firebase.json

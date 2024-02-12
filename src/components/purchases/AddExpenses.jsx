@@ -117,11 +117,11 @@ const AddExpenses = ({ update }) => {
           <div className="flex gap-5 items-center">
             <label htmlFor="expensesVeg">الأصناف</label>
             <SelectMenu
-              conectionName="vegs"
+              conection="vegs"
               data={vegsData && vegsData}
               listName="إختر صنف"
-              setValue={() => setVeg}
-              selectedItem={update && state.vegId}
+              setValue={setVeg}
+              existed={update && state.vegId}
             />
           </div>
           <div className="flex gap-5 items-center">

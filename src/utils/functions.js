@@ -23,7 +23,7 @@ export const handleAdding = (setLoading, path, data) => {
   addDoc(collectionRef, data())
     .then(() => {
       setLoading(false);
-      alert("تمت الإضافة بنجاح.");
+      // alert("تمت الإضافة بنجاح.");
     })
     .catch((err) => {
       alert(err.message);
@@ -36,7 +36,7 @@ export const handleUpdating = (setLoading, path, docId, data) => {
   updateDoc(docToUpdate, data())
     .then(() => {
       setLoading(false);
-      alert("تم التعديل بنجاح.");
+      // alert("تم التعديل بنجاح.");
     })
     .catch((err) => {
       alert(err.message);
