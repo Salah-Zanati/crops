@@ -138,20 +138,14 @@ const Fullact = () => {
                       return (
                         <tr key={act.id}>
                           <td key="1">{act.date}</td>
-                          <td className="hidden md:block" key="2">
-                            {act.act}
-                          </td>
+                          <td key="2">{act.act}</td>
                           <td key="3">{act.vegName}</td>
                           <td key="4">{act.groupName}</td>
-                          <td className="hidden md:block" key="5">
-                            {act.hoursNum}
-                          </td>
-                          <td className="hidden md:block" key="6">
+                          <td key="5">{act.hoursNum}</td>
+                          <td key="6">
                             {userInfo.currency} {act.hourPrice}
                           </td>
-                          <td className="hidden md:block" key="7">
-                            {act.workersNum}
-                          </td>
+                          <td key="7">{act.workersNum}</td>
                           <td key="8">
                             {userInfo.currency}{" "}
                             {(
@@ -201,9 +195,8 @@ const Fullact = () => {
               <thead>
                 <tr>
                   <th>التاريخ</th>
-                  <th className="hidden md:block">العملية</th>
+                  <th>العملية</th>
                   <th>الصنف</th>
-                  <th>سعر الساعة</th>
                   <th>عمليات</th>
                 </tr>
               </thead>
@@ -227,15 +220,10 @@ const Fullact = () => {
                       return (
                         <tr key={fullact.id}>
                           <td key="1">{fullact.date}</td>
-                          <td className="hidden md:block" key="2">
-                            {fullact.act}
-                          </td>
+                          <td key="2">{fullact.act}</td>
                           <td key="3">{fullact.vegName}</td>
-                          <td key="4">
-                            {userInfo.currency} {fullact.hourPrice}
-                          </td>
                           <td
-                            key="5"
+                            key="4"
                             className="flex gap-2 justify-center flex-wrap"
                           >
                             <Button.small>

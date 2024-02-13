@@ -93,6 +93,7 @@ function Fullactworkers() {
             <tr>
               <th>العامل</th>
               <th>عدد الساعات</th>
+              <th>سعر الساعة</th>
               <th>الإجمالي</th>
               <th>مسددة ام لا</th>
               <th>عمليات</th>
@@ -123,14 +124,15 @@ function Fullactworkers() {
                     <tr key={fullactworker.id}>
                       <td key="1">{fullactworker.workerName}</td>
                       <td key="2">{fullactworker.hoursNum}</td>
-                      <td key="5">
+                      <td key="3">{fullactworker.hourPrice}</td>
+                      <td key="4">
                         {userInfo.currency}{" "}
-                        {fullactworker.hoursNum * state.hourPrice}
+                        {fullactworker.hoursNum * fullactworker.hourPrice}
                       </td>
-                      <td key="3">
+                      <td key="5">
                         {fullactworker.isPaid ? "مسددة" : "غير مسددة"}
                       </td>
-                      <td key="4" className="flex gap-2 justify-center">
+                      <td key="6" className="flex gap-2 justify-center">
                         <Button.small>
                           <Link
                             to="/fullactWorkers/updateFullactworkers"

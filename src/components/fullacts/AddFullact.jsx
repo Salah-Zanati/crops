@@ -31,7 +31,6 @@ const AddFullact = ({ update }) => {
   const vegsLoading = useSelector(selectVegsLoading);
 
   // Inputs states
-  const [hourPrice, setHourPrice] = useState(0);
   const [veg, setVeg] = useState(
     doc(database, `users/${userId}/vegs`, "00000000000000000000")
   );
@@ -59,7 +58,6 @@ const AddFullact = ({ update }) => {
       const vegDoc = doc(database, `users/${userId}/vegs`, state.vegId);
       setVeg(vegDoc);
       setAct(state.act);
-      setHourPrice(Number(state.hourPrice));
       const selectedDate = new Date(state.date);
       const timestemp = Timestamp.fromDate(selectedDate);
       setDate(timestemp);
@@ -68,7 +66,6 @@ const AddFullact = ({ update }) => {
   }, []);
 
   // onChange
-  const onHourPriceChange = (e) => setHourPrice(Number(e.target.value));
   const onActChange = (e) => setAct(e.target.value);
   const onDateChange = (e) => {
     const selectedDate = new Date(e.target.value);
@@ -82,7 +79,6 @@ const AddFullact = ({ update }) => {
     obj.veg = veg;
     obj.act = act;
     obj.date = date;
-    obj.hourPrice = hourPrice;
     return { ...obj };
   };
 
@@ -104,17 +100,6 @@ const AddFullact = ({ update }) => {
         <h1>{update ? "تعديل بيانات المصاريف" : "إضافة مصاريف جديدة"}</h1>
         <form>
           <div>
-            <div>
-              <label htmlFor="amount">أدخل سعر الساعة:</label>
-              <Input
-                id="amount"
-                type="number"
-                placeholder="سعر الساعة..."
-                value={update && hourPrice}
-                onChange={onHourPriceChange}
-                disabled={loading}
-              />
-            </div>
             <div>
               <label htmlFor="act">أدخل العملية:</label>
               <Input

@@ -30,6 +30,7 @@ const AddFullactWorkers = ({ update }) => {
 
   // inputs states
   const [hoursNum, setHoursNum] = useState(0);
+  const [hourPrice, setHourPrice] = useState(0);
   const [worker, setWorker] = useState(
     doc(database, `users/${userId}/workers`, "00000000000000000000")
   );
@@ -62,6 +63,7 @@ const AddFullactWorkers = ({ update }) => {
       );
       setWorker(workerDoc);
       setHoursNum(Number(state.hoursNum));
+      setHourPrice(Number(state.hourPrice));
       setIsPaid(state.isPaid);
       setLoading(false);
     }
@@ -69,6 +71,7 @@ const AddFullactWorkers = ({ update }) => {
 
   // onChange
   const onHoursNumChange = (e) => setHoursNum(Number(e.target.value));
+  const onHourPriceChange = (e) => setHourPrice(Number(e.target.value));
   const onIsPaidChange = () => setIsPaid(!isPaid);
 
   // Handle submit
@@ -77,6 +80,7 @@ const AddFullactWorkers = ({ update }) => {
     obj.hoursNum = hoursNum;
     obj.worker = worker;
     obj.isPaid = isPaid;
+    obj.hourPrice = hourPrice;
     return { ...obj };
   };
   const handleSubmitBtn = () => {
@@ -108,33 +112,48 @@ const AddFullactWorkers = ({ update }) => {
         <form>
           <div>
             <div>
-              <label htmlFor="hoursNum">أدخل عدد الساعات: </label>
-              <Input
-                id="hoursNum"
-                type="number"
-                placeholder="عدد الساعات..."
-                value={update && hoursNum}
-                onChange={onHoursNumChange}
-                disabled={loading}
-              />
+              <div>
+                <label htmlFor="hoursNum">أدخل عدد الساعات: </label>
+                <Input
+                  id="hoursNum"
+                  type="number"
+                  placeholder="عدد الساعات..."
+                  value={update && hoursNum}
+                  onChange={onHoursNumChange}
+                  disabled={loading}
+                />
+              </div>
+              <div>
+                <label htmlFor="hourPrice">أدخل سعر الساعة: </label>
+                <Input
+                  id="hourPrice"
+                  type="number"
+                  placeholder="سعر الساعة..."
+                  value={update && hourPrice}
+                  onChange={onHourPriceChange}
+                  disabled={loading}
+                />
+              </div>
             </div>
             <div>
-              <label>إختر عامل:</label>
-              {update ? (
-                <SelectMenu
-                  conection="workers"
-                  data={workersData && workersData}
-                  listName="إختر عامل"
-                  setValue={setWorker}
-                  existed={update && state.workerId}
-                />
-              ) : (
-                <SelectManyMenu
-                  listName="العمال"
-                  data={workersData && workersData}
-                  setWorkersGroup={setWorkersGroup}
-                />
-              )}
+              <div>
+                <label>إختر عامل:</label>
+                {update ? (
+                  <SelectMenu
+                    conection="workers"
+                    data={workersData && workersData}
+                    listName="إختر عامل"
+                    setValue={setWorker}
+                    existed={update && state.workerId}
+                  />
+                ) : (
+                  <SelectManyMenu
+                    listName="العمال"
+                    data={workersData && workersData}
+                    setWorkersGroup={setWorkersGroup}
+                  />
+                )}
+              </div>
             </div>
           </div>
           <div className="d-p">

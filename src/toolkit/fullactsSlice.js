@@ -1,4 +1,11 @@
-import { collection, getDoc, getDocs } from "firebase/firestore";
+import {
+  collection,
+  deleteField,
+  doc,
+  getDoc,
+  getDocs,
+  updateDoc,
+} from "firebase/firestore";
 import { database } from "../firebaseConfig";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { convertDate } from "../utils/functions";
@@ -22,6 +29,45 @@ export const getFullacts = createAsyncThunk(
           const innerData = innerQuerySnapshot.docs.map(
             (doc) => doc.data().hoursNum
           );
+
+          // ## Update worker's info by adding the price
+          // # Add hour price to each fullact's workers data
+          if (item.data().hourPrice) {
+            const price = item.data().hourPrice;
+            const innerDataIDs = innerQuerySnapshot.docs.map((doc) => doc.id);
+            innerDataIDs.forEach((docID) => {
+              const docToUpdate = doc(
+                database,
+                `users/${userId}/fullacts/${item.id}/fullactWorkers`,
+                docID
+              );
+              updateDoc(docToUpdate, {
+                hourPrice: price,
+              }).catch((err) => console.log("Error", err));
+            });
+          }
+          // # Remove hour price from fullact' data
+          const checkOnHourPrice = innerQuerySnapshot.docs.map(
+            (doc) => doc.data().hourPrice
+          );
+          const allExist = () => {
+            let check = true;
+            checkOnHourPrice.forEach(
+              (el) => el == undefined && (check = false)
+            );
+            return check;
+          };
+          if (allExist()) {
+            const docToUpdate = doc(
+              database,
+              `users/${userId}/fullacts`,
+              item.id
+            );
+            updateDoc(docToUpdate, {
+              hourPrice: deleteField(),
+            }).catch((err) => console.log("Error", err));
+          }
+
           // Fetch the act document and veg document using the reference
           if (typeof act !== "string") act = "غير موجود";
 
